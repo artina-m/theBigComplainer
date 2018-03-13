@@ -167,17 +167,21 @@
         }
         else {
             // Zooming into the graph, highlighting zipcode
-            g.selectAll("path").attr("fill", "lightgrey").attr("opacity", 1)
+            g.selectAll("path").transition()
+            .duration(750)
+            .attr("fill", "lightgrey")
+            
             g.selectAll(".active")
             .transition()
             .duration(750)
             .attr("fill", "#2C3E50")
             .attr("stroke-width", 1)
+            .attr("opacity", 1)
         }
             
         g.transition()
               .duration(750)
-              .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+              .attr("transform", "translate(" + ((width / 2)+100 )+ "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
               .style("stroke-width", 1.5 / k + "px");
             
         }
