@@ -54,30 +54,27 @@
     
     d3.json("nyc.geojson", function(error, nyb) {
         var projection = d3.geoMercator()
-                .center([-74.08, 40.75])
-                .scale(190000)
-                .translate([(200/2 - 150), (400)/2+180]);
+            .center([-74.08, 40.75])
+            .scale(190000)
+            .translate([(200/2 - 150), (400)/2+180]);
         
         var path = d3.geoPath().projection(projection);
         var g1 = svg1.append("g");
         
         g1.append("g")
-                .attr("id", "postalCode")
-                .selectAll(".state")
-                .data(nyb.features)
-                .enter().append("path")
-                .attr("class", function(d){ return d.properties.name; })
-                .attr("d", path)
-                .attr("fill", function(d){
-                    if (d.properties.postalCode == "10003" ||  d.properties.postalCode ==  "10009" ||  d.properties.postalCode ==  "10002") {return "orange"}
-                    else {
-                        return"lightgrey"}
-                })
-                .attr("stroke", "white")
+            .attr("id", "postalCode")
+            .selectAll(".state")
+            .data(nyb.features)
+            .enter().append("path")
+            .attr("class", function(d){ return d.properties.name; })
+            .attr("d", path)
+            .attr("fill", function(d){
+                if (d.properties.postalCode == "10003" ||  d.properties.postalCode ==  "10009" ||  d.properties.postalCode ==  "10002") {return "orange"}
+                else {
+                    return"lightgrey"}
+            })
+            .attr("stroke", "white")
         
-        
-
-
         
     })
 </script>
