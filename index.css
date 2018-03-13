@@ -1,0 +1,27 @@
+/*--------------------STYLE GUIDE--------------------*/
+
+/* Add eventually */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.visualization {
+    overflow: hidden
+}
+.firstSection { 
+    width:30%; 
+    height: 100%;
+    float: left;
+}
+.secondSection{ 
+    width:40%; 
+    height: 100%;
+    float: left;
+}
+.thirdSection{ 
+    width:30%; 
+    height:100%;
+    float: left
+}
