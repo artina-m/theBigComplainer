@@ -7,6 +7,9 @@ body {
     padding: 0;
 }
 
+h1 {
+    color: #2C3E50;
+}
 .visualization {
     overflow: hidden
 }
@@ -25,3 +28,5 @@ body {
     height:100%;
     float: left
 }
+
+
