@@ -11,6 +11,7 @@
 <div class = "visualization">
 
     <div class = "firstSection">
+        <h1> The Big Complainer</h1>
     </div>
     
     <div class = "secondSection">
@@ -54,8 +55,8 @@
     
     d3.json("nyc.geojson", function(error, nyb) {
         var projection = d3.geoMercator()
-            .center([-74.08, 40.75])
-            .scale(190000)
+            .center([-74.04, 40.75])
+            .scale(195000)
             .translate([(200/2 - 150), (400)/2+180]);
         
         var path = d3.geoPath().projection(projection);
