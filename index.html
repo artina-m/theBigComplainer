@@ -22,17 +22,34 @@
 </div>
     
     
-    
+
 <script>
+    // Load Data
+    function parseLine(line) {
+        return {
+            uniqueKey: Number(line["Unique Key"]),
+            date: line["Created Date"],
+            complaintType: line["Complaint Type"],
+            zipcode: line["Incident Zip"],
+            latitude: Number(line["Latitude"]),
+            longitude: Number(line["Longitude"]),
+            nieghborhood: line["Neighborhood"]
+        }
+    }
+    
+    var complaintData;
+    
+    d3.tsv("ManhattanComplaints", parseLine, function(error,data){
+        complaintData = data;
+
+    })
     
 </script>
     
 </body>
     
-<!-- json file pulled from: http://catalog.civicdashboards.com/dataset/11fd957a-8885-42ef-aa49-5c879ec93fac/resource/28377e88-8a50-428f-807c-40ba1f09159b/download/nyc-zip-code-tabulation-areas-polygons.geojson-->
-<!-- map graphing code referenced from http://bl.ocks.org/phil-pedruco/6646844-->
-<!-- color gradient coding tutorial referenced from https://www.visualcinnamon.com/2016/05/smooth-color-legend-d3-svg-gradient.html-->
-<!--<div> All Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
     
-
+    
+<!-- Refrences -->
+    
 </html>
