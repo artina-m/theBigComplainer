@@ -180,7 +180,7 @@
                 .attr("cy", function(d){
                     return projection([d.longitude, d.latitude])[1]})
                 .attr("r", 0.4)
-                .attr("fill", "white")
+                .attr("fill", "#F5C141")
                 .attr("opacity", 0.4)
             }
             
@@ -198,6 +198,7 @@
         
         function getZipDetails(code){
             cd = nested[c].values;
+            
             
             for (i in cd){
                 place = cd[i];
@@ -234,10 +235,20 @@
                             .attr("y",d.y)
                             .on("click", function()
                                 {c=d.id;
+                                 x = 250;
+                                y = 350;
                                  cd = nested[c];
                                  
                                  g.selectAll("path")
                                  .attr("fill", function(d){ return fillMap(d,c)})
+                                 
+                                 g.selectAll("circle").remove()
+                                 
+                                 g.transition()
+                                .duration(750)
+                                .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
+                                .style("stroke-width", 1.5  + "px");
+            
                                 
                                 
                                 })
