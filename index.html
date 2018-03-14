@@ -264,6 +264,19 @@
             // Day of month is 0 indexed 0..11
             // Hours are in military time 0..23
 
+
+            function convdate(entry){
+                return {
+                    uniqueKey: entry.uniqueKey,
+                    date: new Date(entry.date),
+                    complaintType: entry.complaintType,
+                    zipcode: Number(entry.zipcode),
+                    latitude: Number(entry.latitude),
+                    longitude: Number(entry.longitude),
+                    neighborhood: entry.nieghborhood
+                }
+            }
+
             function generateHeatMap(complaint_type, data, target_div, zip) {
 
                 // if showing all zip codes, 'ALL'
@@ -272,14 +285,15 @@
                 console.log("Entering generate heat map...");
 
                 // convert date obj for all data
-                let curated_data = change2Date(data);
+                // let curated_data = change2Date(data);
+                let curated_data = data.map(entry=> convdate(entry));
 
                 console.log(curated_data);
 
                 // get objects of this specific complaint_type
                 var post_processing_data = curated_data.filter(entry => entry.complaintType == complaint_type);
-
-                // console.log(post_processing_data);
+                console.log("DATA GOING INTO VISUALIZATION");
+                console.log(post_processing_data);
 
                 // if default view, use all zipcodes, else filter by the inputted zip code
                 if (zip_code !== "ALL") {
@@ -287,10 +301,10 @@
                         Number(entry.zipcode) == zip_code);
                 }
 
-                console.log("BEFORE ANYTHING")
-                console.log(post_processing_data);
+                // console.log("BEFORE ANYTHING")
+                // console.log(post_processing_data);
 
-                console.log("BEGINNING LOOP");
+                // console.log("BEGINNING LOOP");
                 // curated data in Heatmap format
                 let day_hour_val = [];
 
@@ -298,13 +312,13 @@
                 for (i = 0; i < 7; i++) {
                     let day = post_processing_data.filter(entry => entry.date.getDay() == i
                     );
-                    console.log("DAY: ", i);
-                    console.log(day);
+                    // console.log("DAY: ", i);
+                    // console.log(day);
                     // for each of the 24 hours of the day
                     for (z = 0; z < 24; z++) {
-                        console.log("HOUR: ", z)
+                        // console.log("HOUR: ", z)
                         let hour = day.filter(day => day.date.getHours() == z);
-                        console.log(hour);
+                        // console.log(hour);
                         let count = hour.length;
                         day_hour_val.push({
                             zipcode: zip_code,
@@ -317,10 +331,10 @@
                 }
 
 
-                console.log(day_hour_val);
+                // console.log(day_hour_val);
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
-                console.log(sum);
+                // console.log(sum);
 
                 var x;
                 var highest = 0
@@ -330,7 +344,7 @@
                         highest = element.value;
                     }
                 }, this);
-                console.log(x);
+                // console.log(x);
 
 
 
@@ -446,13 +460,13 @@
             // generateHeatMap("Noise - Residential", data, ".thirdSection", "ALL")
             // 50452
 
-            // generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "ALL")
+            generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "ALL")
             // 14430
 
             // generateHeatMap("Noise - Residential", complaintData, ".thirdSection", "10031")
             // 4352
 
-            generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "10031")
+            // generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "10031")
             // 1417
         
 
@@ -474,6 +488,8 @@
     // Call to change into date
     function change2Date(data){
         var i=0;
+        console.log("Entering change2date");
+        console.log(data);
         while(i<data.length){
             if(data[i].date.substring(20,22) == "PM"){
                 data[i].date = new Date(2017,
