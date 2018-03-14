@@ -11,9 +11,13 @@
 <div class = "visualization">
 
     <div class = "firstSection" id="firstDiv">
-             <h1 id = "mainTitle"> The Big Complainer</h1>
+            <h1 id = "mainTitle"> The Big Complainer</h1>
+            <hr>
+            <p id = "subTitle"> What are New Yorkers complaining about?</p>
+            <p id = "blurb">Top 311 complaints Manhattan for 2017</p>
                 <svg id='svg1' width= 100% height=50%>
                 </svg>
+        
                 <script>
                     var svg1 = document.getElementById('svg1');
                     var svgWidth = document.getElementById('firstDiv').offsetWidth;
@@ -35,18 +39,14 @@
                     }) 
                     
 
+                </script>        
+    </div>
 
-                </script>
+    <div class = "secondSection" id = "map">
+    </div>
 
-            <hr>
-            <p id = "subTitle"> What are New Yorkers complaining about?</p>
-            <p id = "blurb">Top 311 complaints Manhattan for 2017</p>
-
-        <div class = "secondSection", id = "map">
-        </div>
-
-        <div class = "thirdSection">
-        </div>
+    <div class = "thirdSection">
+    </div>
 
 </div>
 
@@ -74,10 +74,7 @@
     var complaintData;
     var nested;
     var c = 0;
-    
-    var colorScale = d3.scaleLinear()
-        .domain([100,1000])
-        .range([0.2, 1]);
+
 
 
     d3.tsv("ManhattanComplaints", parseLine, function(error,data){
