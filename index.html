@@ -15,8 +15,7 @@
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
             <p id = "blurb">Top 311 complaints in Manhattan for 2017</p>
-            <br>
-                <svg id='svg1' width= 80% height=50%>
+                <svg id='svg1' width= 90% height=50%>
                 </svg>
         
                 <script>
@@ -29,17 +28,7 @@
 
                     var insert = d3.select("svg");
             
-                    pics.forEach(function(d){
-                        insert.append("svg:image")
-                            .attr("xlink:href", d.name)
-                            .attr("class", "icon")
-                            .attr("width", svgWidth/5-10)
-                            .attr("height", svgHeight/5-10)
-                            .attr("x", d.x)
-                            .attr("y",d.y)
-                            .on("click", function(){c=d.id;})
-                    }) 
-                    
+                   
 
                 </script>        
     </div>
@@ -233,7 +222,34 @@
                 .attr("stroke", "white")
                 .on("click", clicked)
             });
+        
+        
+        
+        pics.forEach(function(d){
+                        insert.append("svg:image")
+                        .attr("xlink:href", d.name)
+                            .attr("width", svgWidth/5-10)
+                            .attr("height", svgHeight/5-10)
+                            .attr("x", d.x)
+                            .attr("y",d.y)
+                            .on("click", function()
+                                {c=d.id;
+                                 cd = nested[c];
+                                 
+                                 g.selectAll("path")
+                                 .attr("fill", function(d){ return fillMap(d,c)})
+                                
+                                
+                                })
+        }) 
+                    
+        
+        
     })
+    
+    
+    
+     
     
 </script>
     
