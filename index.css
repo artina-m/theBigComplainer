@@ -94,3 +94,62 @@ p {
   fill: #000; }
 .thirdSection text.axis-worktime {
   fill: #000; }
+
+
+/* Heatmap */
+
+.thirdSection rect.bordered {
+  stroke: #E6E6E6;
+  stroke-width: 2px; }
+.thirdSection text.mono {
+  font-size: 9pt;
+  /* font-family: Consolas, courier; */
+  font-family: "Playfair Display SC";
+  fill: #aaa; }
+.thirdSection text.axis-workweek {
+  fill: #000; }
+.thirdSection text.axis-worktime {
+  fill: #000; }
+
+.toolTip {
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 rgb(237, 237, 237);
+  color: black;
+  font-family: "Playfair Display SC";
+  /* border: 1px solid rgb(113, 117, 109); */
+  border-radius: 5px;
+  padding: 14px;
+  text-align: center;
+  z-index: 1;
+  -webkit-box-shadow: 4px 6px 10px -5px rgba(0,0,0,0.75);
+-moz-box-shadow: 4px 6px 10px -5px rgba(0,0,0,0.75);
+box-shadow: 4px 6px 10px -5px rgba(0,0,0,0.75);
+}
+
+.toolTip span{
+    color: rgba(232, 68, 68, 0.97);
+}
+/* shared with before and after */
+.toolTip:before, .toolTip:after {
+	content: ' ';
+	height: 0;
+	position: absolute;
+	width: 0;
+    border: 10px solid transparent; /* arrow size */
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
+/* arrow which acts as a background shadow */
+.toolTip:before {
+	border-bottom-color: rgb(237, 237, 237);  /* arrow color */
+
+	/* positioning */
+	position: absolute;
+	top: 30px;
+	left:-20px;
+	z-index: -1;
+}

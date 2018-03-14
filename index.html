@@ -340,15 +340,12 @@
 //        
 
         //Begin heatmap read in 
-
-         // Geneate Heat Map and mount to div class target_div
-
             // ====Notes for Heat Map====
             // Day of month is 0 indexed 0..11
             // Hours are in military time 0..23
 
-
-            function convdate(entry){
+            // convert an entry from the raw data into the specific object
+            function convdate(entry) {
                 return {
                     uniqueKey: entry.uniqueKey,
                     date: new Date(entry.date),
@@ -356,11 +353,11 @@
                     zipcode: Number(entry.zipcode),
                     latitude: Number(entry.latitude),
                     longitude: Number(entry.longitude),
-                    neighborhood: entry.nieghborhood
+                    nieghborhood: entry.nieghborhood
                 }
             }
 
-            function generateHeatMap(complaint_type, data, target_div, zip) {
+            function generateHeatMap(complaint_type, data, zip) {
 
                 // if showing all zip codes, 'ALL'
                 let zip_code = zip === "ALL" ? "ALL" : Number(zip);
@@ -369,7 +366,7 @@
 
                 // convert date obj for all data
                 // let curated_data = change2Date(data);
-                let curated_data = data.map(entry=> convdate(entry));
+                let curated_data = data.map(entry => convdate(entry));
 
                 console.log(curated_data);
 
@@ -384,24 +381,14 @@
                         Number(entry.zipcode) == zip_code);
                 }
 
-                // console.log("BEFORE ANYTHING")
-                // console.log(post_processing_data);
-
-                // console.log("BEGINNING LOOP");
-                // curated data in Heatmap format
                 let day_hour_val = [];
 
                 // for each of the 7 days of the week
                 for (i = 0; i < 7; i++) {
                     let day = post_processing_data.filter(entry => entry.date.getDay() == i
                     );
-                    // console.log("DAY: ", i);
-                    // console.log(day);
-                    // for each of the 24 hours of the day
                     for (z = 0; z < 24; z++) {
-                        // console.log("HOUR: ", z)
                         let hour = day.filter(day => day.date.getHours() == z);
-                        // console.log(hour);
                         let count = hour.length;
                         day_hour_val.push({
                             zipcode: zip_code,
@@ -412,12 +399,8 @@
                         });
                     }
                 }
-
-
-                // console.log(day_hour_val);
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
-                // console.log(sum);
 
                 var x;
                 var highest = 0
@@ -427,8 +410,9 @@
                         highest = element.value;
                     }
                 }, this);
-                // console.log(x);
 
+                // console.log("final data after fixing going into actual viz");
+                // console.log(day_hour_val);
 
 
                 // Visualization
@@ -439,26 +423,31 @@
                 let margin = { top: 20, right: 10, bottom: 10, left: 20 },
                     height = 800 - margin.left - margin.right,
                     width = 500 - margin.top - margin.bottom,
-                    gridSize = Math.floor(width / 24),
+                    gridSize = Math.floor(width / 21),
                     legendElementWidth = gridSize * 2,
                     buckets = 9,
-                    colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"], // alternatively colorbrewer.YlGnBu[9]
+                    colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
+                    // alternatively colorbrewer.YlGnBu[9]
+
+
                     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                    times = ["12p", "1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p"];
+                    days_lookup = { "Su": "Sunday", "Mo": "Monday", "Tu": "Tuesday", "We": "Wednesday", "Th": "Thursday", "Fr": "Friday", "Sa": "Saturday" };
 
-                // datasets = ["data.tsv", "data2.tsv"];
+                times = ["12p", "1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p"];
 
-                let svg = d3.select(target_div).append("svg")
+
+
+                let svg = d3.select(".thirdSection").append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    .attr("transform", "translate(" + (margin.left + 40) + "," + margin.top + ")");
 
                 let dayLabels = svg.selectAll(".dayLabel")
                     .data(days)
                     .enter().append("text")
                     .text(function (d) { return d; })
-                    .attr("x", function (d, i) { return i * gridSize + 40; })
+                    .attr("x", function (d, i) { return i * gridSize + 38; })
                     .attr("y", 0)
                     .style("text-anchor", "end")
                     // .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
@@ -469,14 +458,15 @@
                     .enter().append("text")
                     .text(function (d) { return d; })
                     .attr("x", 0)
-                    .attr("y", function (d, i) { return i * gridSize + 40; })
+                    .attr("y", function (d, i) { return i * gridSize + 38; })
                     .style("text-anchor", "middle")
                     .attr("transform", "translate(" + gridSize / 2 + ", -6)")
                     .attr("class", function (d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis axis-worktime"); });
 
 
                 const colorScale = d3.scaleQuantile()
-                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })]).range([ '#F7DC6F',"#F5B041","#E74C3C"]);
+                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
+                    .range(colors);
 
 
                 const cards = svg.selectAll(".hour")
@@ -484,8 +474,12 @@
 
                 cards.append("title");
 
+                const tooltip = d3.select('body').append('div')
+                    .attr('id', 'tooltip').attr("class", "toolTip");
+
+
                 cards.enter().append("rect")
-                    .attr("x", function (d) { return (d.day - 1) * gridSize + 40; })
+                    .attr("x", function (d) { return (d.day - 1) * gridSize + 45; })
                     .attr("y", function (d) { return (d.hour - 1) * gridSize + 40; })
                     .attr("rx", 4)
                     .attr("ry", 4)
@@ -493,10 +487,24 @@
                     .attr("width", gridSize)
                     .attr("height", gridSize)
                     .style("fill", colors[0])
+
+                    .on('mousemove', (d) => {
+                        console.log(d);
+                        tooltip
+                            .style("left", d3.event.pageX + 25 + "px")
+                            .style("top", d3.event.pageY - 40 + "px")
+                            .style("display", "inline-block")
+                            .html(`<span>${days_lookup[days[d.day]]}</span> at <span>${times[d.hour]}</span> <br> <span>${d.value}</span> Complaints `);
+                    })
+
+                    .on("mouseout", function (d) { tooltip.style("display", "none"); })
+
                     .merge(cards)
                     .transition()
                     .duration(1000)
-                    .style("fill", (d) => colorScale(d.value));
+
+                    .style("fill", (d) => colorScale(d.value))
+
 
                 // cards.transition().duration(1000)
                 //         .style("fill", function (d) { return colorScale(d.value); });
@@ -536,23 +544,23 @@
 
 
             // take in complaint_type, raw data, and the target div
-            // generateHeatMap("Noise - Residential", data, ".thirdSection", "10004")
+            // generateHeatMap("Noise - Residential", data, "10004")
             // 29
 
-            // generateHeatMap("Noise - Residential", data, ".thirdSection", "ALL")
+            // generateHeatMap("Noise - Residential", data, "ALL")
             // 50452
 
-            generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "ALL")
-            // 14430
+            generateHeatMap("UNSANITARY CONDITION", data, "ALL")
+        // 14430
 
-            // generateHeatMap("Noise - Residential", complaintData, ".thirdSection", "10031")
-            // 4352
+        // generateHeatMap("Noise - Residential", complaintData, "10031")
+        // 4352
 
-            // generateHeatMap("UNSANITARY CONDITION", data, ".thirdSection", "10031")
-            // 1417
-        
+        // generateHeatMap("UNSANITARY CONDITION", data, "10031")
+        // 1417
 
-        
+
+
     })
     
     
