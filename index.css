@@ -1,6 +1,7 @@
 /*--------------------STYLE GUIDE--------------------*/
 
 /* Add eventually */
+@import url('https://fonts.googleapis.com/css?family=Lato|Playfair+Display+SC');
 
 body {
     margin: 50;
@@ -8,8 +9,30 @@ body {
 }
 
 h1 {
-    color: #2C3E50;
+    color: black;
+    margin-top: 150px;
+    font-family: "Playfair Display SC";
+    text-align: center;
 }
+
+#subTitle{
+    font-size: 18;
+    color: grey;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#blurb {
+    font-size: 14;
+    margin-top: 5px;
+    text-align: center;
+}
+
+p {
+    font-family: "Lato"
+}
+
+
 .visualization {
     overflow: hidden
 }
@@ -17,11 +40,13 @@ h1 {
     width:30%; 
     height: 100%;
     float: left;
+    margin-right: 15px
 }
 .secondSection{ 
     width:30%; 
     height: 100%;
     float: left;
+    margin-right: 15px;
 }
 .thirdSection{ 
     width:40%; 
