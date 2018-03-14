@@ -10,12 +10,37 @@
 
 <div class = "visualization">
 
-        <div class = "firstSection">
-            <h1 id = "mainTitle"> The Big Complainer</h1>
+    <div class = "firstSection" id="firstDiv">
+             <h1 id = "mainTitle"> The Big Complainer</h1>
+                <svg id='svg1' width= 100% height=50%>
+                </svg>
+                <script>
+                    var svg1 = document.getElementById('svg1');
+                    var svgWidth = document.getElementById('firstDiv').offsetWidth;
+                    var svgHeight = document.getElementById('firstDiv').offsetHeight/2;
+
+
+                    pics = [{id:0, name:"noise res.svg", x:0, y:0}, {id:1, name:"heat water.svg", x:svgWidth/3, y:0}, {id:2, name:"illegal parking.svg", x:(svgWidth/3)*2, y:0}, {id:3, name:"blocked driveway.svg", x:0, y:svgHeight/3} , {id:4, name:"street.svg", x:svgWidth/3, y:svgHeight/3}, {id:5, name:"streetlight.svg", x:(svgWidth/3)*2, y:svgHeight/3}, {id:6, name:"unsanitary.svg", x:0, y:(svgHeight/3)*2}, {id:7, name:"noise street.svg", x:svgWidth/3, y:(svgHeight/3)*2}, {id:8, name:"water system.svg", x:(svgWidth/3)*2, y:(svgHeight/3)*2}];
+
+                    var insert = d3.select("svg");
+            
+                    pics.forEach(function(d){
+                        insert.append("svg:image")
+                            .attr("xlink:href", d.name)
+                            .attr("width", svgWidth/3-10)
+                            .attr("height", svgHeight/3-10)
+                            .attr("x", d.x)
+                            .attr("y",d.y)
+                            .on("click", function(){c=d.id})
+                    }) 
+                    
+
+
+                </script>
+
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
             <p id = "blurb">Top 311 complaints Manhattan for 2017</p>
-        </div>
 
         <div class = "secondSection", id = "map">
         </div>
