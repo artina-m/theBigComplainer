@@ -16,7 +16,7 @@ h1 {
 }
 
 #subTitle{
-    font-size: 18;
+    font-size: 16;
     color: grey;
     margin-bottom: 10px;
     text-align: center;
@@ -28,16 +28,42 @@ h1 {
     text-align: center;
 }
 
+#place {
+    color: grey;
+    margin-bottom: 10px;
+}
+
+.buttonText{
+    font-family: "Lato";
+    font-size: 12px;
+    text-align: center;
+}
+#totalNumber {
+    font-weight: 600;
+    color:#E74C3C;
+    margin-top: 30px; 
+    margin-bottom: -10px;
+}
+
+#complaintType {
+    color: grey;
+    margin-top: -10px;
+}
+
+
+
 p {
     font-family: "Lato"
 }
 
-
+.svg1{
+    display: block
+}
 .visualization {
     overflow: hidden
 }
 .firstSection { 
-    width:28%; 
+    width:320; 
     height: 100%;
     float: left;
     margin-right: 15px;

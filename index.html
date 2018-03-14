@@ -15,22 +15,36 @@
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
             <p id = "blurb">Top 311 complaints in Manhattan for 2017</p>
-                <svg id='svg1' width= 90% height=50%>
-                </svg>
-        
-                <script>
-                    var svg1 = document.getElementById('svg1');
-                    var svgWidth = document.getElementById('firstDiv').offsetWidth;
-                    var svgHeight = document.getElementById('firstDiv').offsetHeight/2;
+            <svg id='svg1' width= 100% height=200>
+            </svg>
+
+            <script>
+                var svg1 = d3.select("svg")
+                var svgWidth = document.getElementById('firstDiv').offsetWidth;
+                var svgHeight = document.getElementById('firstDiv').offsetHeight/2;
 
 
-                    pics = [{id:0, name:"noise res.svg", x:0, y:0}, {id:1, name:"heat water.svg", x:svgWidth/3, y:0}, {id:2, name:"illegal parking.svg", x:(svgWidth/3)*2, y:0}, {id:3, name:"blocked driveway.svg", x:0, y:svgHeight/3} , {id:4, name:"street.svg", x:svgWidth/3, y:svgHeight/3}, {id:5, name:"streetlight.svg", x:(svgWidth/3)*2, y:svgHeight/3}, {id:6, name:"unsanitary.svg", x:0, y:(svgHeight/3)*2}, {id:7, name:"noise street.svg", x:svgWidth/3, y:(svgHeight/3)*2}, {id:8, name:"water system.svg", x:(svgWidth/3)*2, y:(svgHeight/3)*2}];
+                pics = [
+                    {id:0, name1:"Residential", name2:"Noise", x:0, y:40}, 
+                    {id:1, name1:"Heat/Hot", name2: "Water", x:svgWidth/3, y:40}, 
+                    {id:2, name1:"Street", name2:"Noise", x:(svgWidth/3)*2, y:40}, 
+                    {id:3, name1:"Illegal", name2: "Parking", x:0, y:85} , 
+                    {id:4, name1:"Street", name2:"Lights", x:svgWidth/3, y:85}, 
+                    {id:5, name1:"Street", name2:"Condition", x:(svgWidth/3)*2, y:85}, 
+                    {id:6, name1:"Water", name2:"System", x:0, y:130}, 
+                    {id:7, name1:"Blocked", name2:" Driveway", x:svgWidth/3, y:130}, 
+                    {id:8, name1:"Unsanitary", name2:"Conditions", x:(svgWidth/3)*2, y:130}];
 
-                    var insert = d3.select("svg");
-            
-                   
+                var insert = d3.select("svg");
 
-                </script>        
+                var noiseTypes = ["Residential Noise", "Heat/Hot Water",
+                                 "Street Noise", "Illegal Parking", "Street Lights", "Street Condition", "Water System", "Blocked Driveway", "Unsanitary Conditions"];
+
+            </script> 
+            <hr>
+            <p id = "totalNumber">3,456</p>
+            <p id = "place">Manhattan</p>
+            <p id = "complaintType">Residental Noise Complaints</p>
     </div>
 
     <div class = "secondSection" id = "map">
@@ -227,34 +241,103 @@
         
         
         pics.forEach(function(d){
-                        insert.append("svg:image")
-                        .attr("xlink:href", d.name)
-                            .attr("width", svgWidth/5-10)
-                            .attr("height", svgHeight/5-10)
-                            .attr("x", d.x)
-                            .attr("y",d.y)
-                            .on("click", function()
-                                {c=d.id;
-                                 x = 250;
-                                y = 350;
-                                 cd = nested[c];
-                                 
-                                 g.selectAll("path")
-                                 .attr("fill", function(d){ return fillMap(d,c)})
-                                 
-                                 g.selectAll("circle").remove()
-                                 
-                                 g.transition()
-                                .duration(750)
-                                .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
-                                .style("stroke-width", 1.5  + "px");
+            i = 0;
+            insert.append("svg")
+            .attr("id",  "svg" + d.id)
+            .attr("width", 110)
+            .attr("height", 40)
+            .attr("x", d.x)
+            .attr("y", d.y)
+            .on("click", function()
+                    {c=d.id;
+                     x = 250;
+                        y = 350;
+                     cd = nested[c];
+
+                     g.selectAll("path")
+                     .attr("fill", function(d){ return fillMap(d,c)})
+
+                     g.selectAll("circle").remove()
+
+                     g.transition()
+                    .duration(750)
+                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
+                    .style("stroke-width", 1.5  + "px");
+                     
+                    d3.selectAll(".buttonText").style("fill", "grey");
+                    d3.select(this).selectAll("text").style("fill", "white");
+                     
+                    d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
+                    d3.select(this).select("rect").style("fill", "#E74C3C").attr("id", "selected")
+
+                     
+                    })
             
-                                
-                                
-                                })
-        }) 
-                    
+            // change button color
+            d3.select("#svg" + d.id).append("rect")
+            .attr("class", "buttons")
+            .attr("width", 150)
+            .attr("height", 50)
+            .attr("fill", "white")
+            .on("click", function(){
+                    d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
+                    d3.select(this).style("fill", "#E74C3C").attr("id", "selected")
+            })   
+            .on("mouseover", function(){
+                    d3.selectAll('.buttons').style('fill','white'); //fill all circles black
+                    d3.select("#selected").style("fill", "#E74C3C");
+
+                    d3.select(this).style("fill", "lightgrey");
+            }) 
+            .on("mouseout", function(){
+                    d3.selectAll('.buttons').style('fill','white'); //fill all circles black
+                    d3.select("#selected").style("fill", "#E74C3C");
+            })
+            
+             d3.select("#svg0").select('rect').style("fill", "#E74C3C");
+            d3.select("#svg0").selectAll('text').style("fill", "white");
+
+            
+            
+            d3.select("#svg" + d.id).append("text").text(d.name1)
+            .attr("class","buttonText")
+            .attr("x", 15)
+            .attr("y", 20)
+            .attr("fill", "grey")
+            
+             d3.select("#svg" + d.id).append("text").text(d.name2)
+            .attr("class","buttonText")
+            .attr("x", 15)
+            .attr("y", 38).attr("fill", "grey")
+
+        })
         
+        
+       
+            
+//            insert.append("text")
+//            .text(d.name1)
+//            .attr("x", d.x)
+//            .attr("y",d.y)
+//            .on("click", function()
+//                    {c=d.id;
+//                     x = 250;
+//                    y = 350;
+//                     cd = nested[c];
+//
+//                     g.selectAll("path")
+//                     .attr("fill", function(d){ return fillMap(d,c)})
+//
+//                     g.selectAll("circle").remove()
+//
+//                     g.transition()
+//                    .duration(750)
+//                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
+//                    .style("stroke-width", 1.5  + "px");
+//                    })
+//        })
+//                    
+//        
 
         //Begin heatmap read in 
 
@@ -393,8 +476,7 @@
 
 
                 const colorScale = d3.scaleQuantile()
-                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
-                    .range(colors);
+                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })]).range([ '#F7DC6F',"#F5B041","#E74C3C"]);
 
 
                 const cards = svg.selectAll(".hour")
@@ -549,8 +631,6 @@
     }
     
     
-
-
 </script>
     
     
