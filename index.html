@@ -26,40 +26,10 @@
 <script>
 
     // Nieghborhoods --- working on this
-    neigh = {
-        "Central Harlem": {zipcodes: ["10026", "10027", "10030", "10037", "10039"],
-                    name: "Central Harlem",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Chelsea and Clinton": {zipcodes: ["10001", "10011", "10018", "10019", "10020", "10036"],
-                    name: "Chelsea and Clinton",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "East Harlem": {zipcodes: ["10029","10035"],
-                    name: "East Harlem",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Gramercy Park and Murray Hill": {zipcodes: ["10010", "10016", "10017", "10022"],
-                    name: "Gramercy Park and Murray Hill",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Greenwhich Village and Soho": {zipcodes: ["10012", "10013", "10014"],
-                    name: "Greenwhich Village and Soho",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Lower Manhattan": {zipcodes: ["10004", "10005", "10006", "10007", "10038", "10280"],
-                    name: "Lower Manhattan",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Lower East Side": {zipcodes: ["10002", "10003", "10009"],
-                    name: "Lower East Side",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Upper East Side": {zipcodes: ["10021", "10028","10044", "10065", "10075", "10128"],
-                    name: "Upper East Side",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Upper West Side": {zipcodes: ["10023", "10024","10025"],
-                    name: "Upper West Side",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0},
-        "Inwood and Washington Heights": {zipcodes: ["10031", "10032", "10033", "10034", "10040"],
-                    name: "Inwood and Washington Heights",
-                    noiseR: 0,heatHotWater:0,illegalParking: 0, blockedDriveway: 0, streetCondition:0, streetLightCondition:0, unsanitaryCondition:0, noiseS:0,waterSystem:0}
-    };
     
-       
+    color = "#227DDA"
+        
+    
     // Load Data
     function parseLine(line) {
         return {
@@ -75,7 +45,7 @@
 
     var complaintData;
     var nested;
-    var c = 1;
+    var c = 0;
     
     var colorScale = d3.scaleLinear()
         .domain([100,1000])
@@ -107,7 +77,7 @@
         
         // Map 
         var width = 200;
-        var height = 500;
+        var height = 600;
         var centered = 20;
         
         var projection = d3.geoMercator()
@@ -152,12 +122,14 @@
             zoom = "out"
 
           }
-
+    
+        g.selectAll("circle").remove()
         g.selectAll("path").classed("nonactive", function(d) { return d != centered;})
         g.selectAll("path").classed("active", centered && function(d) { return d === centered; });
             
             
         if (zoom == "out"){
+
             // Zooming out from the graph and adding back the heatmap
             g.selectAll("path").attr("fill", "#FF5733")
                 .attr("opacity", function(d){  return fillMap(d,c)})
@@ -165,9 +137,10 @@
                 .duration(750)
                 .attr("fill", "#FF5733")
                 .attr("stroke-wdith", 1.5 / k + "px")
-            
         }
+            
         else {
+            
             // Zooming into the graph, highlighting zipcode
             g.selectAll("path").transition()
             .duration(750)
@@ -176,28 +149,49 @@
             g.selectAll(".active")
             .transition()
             .duration(750)
-            .attr("fill", "#2C3E50")
-            .attr("stroke-width", 1)
+            .attr("fill", "#FF5733")
             .attr("opacity", 1)
             
-            // Get complaint type for area
-            g.selectAll(".active")
-                .data(nested[0])
+            if (d.properties != undefined) {
+                var code = d.properties.postalCode
+            
+                zipData = getZipDetails(code)
+
+                g.selectAll("circle").data(zipData)
                 .enter().append("circle")
-                .attr("d", path)
-                .attr("fill", "#FF5733")
-                .attr("opacity", function(d){ return fillMap(d,c)})
-                .attr("stroke", "white")
-                .on("click", clicked)
+                .attr("class", "complaintPoint")
+                .attr("cx", function(d){
+                    return projection([d.longitude, d.latitude])[0]})
+                .attr("cy", function(d){
+                    return projection([d.longitude, d.latitude])[1]})
+                .attr("r", 0.5)
+                .attr("fill", "white")
+            }
             
         }
-            
+          
         g.transition()
               .duration(750)
-              .attr("transform", "translate(" + ((width / 2)+100 )+ "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+              .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
               .style("stroke-width", 1.5 / k + "px");
             
+
+            
         }
+        
+        
+        function getZipDetails(code){
+            cd = nested[c].values;
+            
+            for (i in cd){
+                place = cd[i];
+                if (cd[i].key == code){
+                    return cd[i].values
+                }
+            }
+            return []
+        }
+        
         
         // Populate map
         d3.json("nyc.geojson", function(error, nyb) {
@@ -210,7 +204,7 @@
                 .enter().append("path")
                 .attr("class", "zips")
                 .attr("d", path)
-                .attr("fill", "#FF5733")
+                .attr("fill", "#227DDA")
                 .attr("opacity", function(d){ return fillMap(d,c)})
                 .attr("stroke", "white")
                 .on("click", clicked)
