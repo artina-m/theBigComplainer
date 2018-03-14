@@ -204,8 +204,7 @@
                 .enter().append("path")
                 .attr("class", "zips")
                 .attr("d", path)
-                .attr("fill", "#227DDA")
-                .attr("opacity", function(d){ return fillMap(d,c)})
+                .attr("fill", function(d){ return fillMap(d,c)})
                 .attr("stroke", "white")
                 .on("click", clicked)
             });
@@ -261,6 +260,11 @@
     }
     
     
+    colorScale = d3.scaleLinear().domain([100,1000])
+      .interpolate(d3.interpolateHcl)
+      .range([d3.rgb("#007AFF"), d3.rgb('#22DAB2')]);
+    
+    
     // Call to change neighborhood data on map
     function fillMap(d,c){
         var zipCode = d.properties.postalCode
@@ -273,7 +277,7 @@
                 return colorScale(num)
             }
         }
-       return 0.1
+       return "lightGrey"
             
     }
     
