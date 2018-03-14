@@ -378,9 +378,8 @@
                     .attr("class", function (d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis axis-worktime"); });
 
 
-                const colorScale = d3.scaleQuantile()
-                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
-                    .range(colors);
+                const colorScale = d3.scaleLinear()
+                    .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })]).range([ '#F7DC6F',"#F5B041","#E74C3C"]);
 
 
                 const cards = svg.selectAll(".hour")
@@ -533,8 +532,6 @@
     }
     
     
-
-
 </script>
     
     
