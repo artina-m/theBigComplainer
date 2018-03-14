@@ -37,19 +37,20 @@ p {
     overflow: hidden
 }
 .firstSection { 
-    width:30%; 
+    width:28%; 
     height: 100%;
     float: left;
-    margin-right: 15px
+    margin-right: 15px;
+    text-align: center;
 }
 .secondSection{ 
-    width:30%; 
+    width:28%; 
     height: 100%;
     float: left;
     margin-right: 15px;
 }
 .thirdSection{ 
-    width:40%; 
+    width:39%; 
     height:100%;
     float: left
 }
