@@ -75,9 +75,10 @@
 
     var complaintData;
     var nested;
+    var c = 1;
     
     var colorScale = d3.scaleLinear()
-        .domain([100,5000])
+        .domain([100,1000])
         .range([0.2, 1]);
 
 
@@ -85,17 +86,17 @@
         
         complaintData = data;
         
-        // Nested: Complaint Type -> Neighborhood -> Point details
+        // Nested: Complaint Type -> Zipcode -> Point details
         // Roll up to complaint type
         var nested_data = d3.nest()
             .key(function(d) { return d.complaintType; })
             .entries(complaintData);
         
-        // Break into nieghborhood types
+        // Break into zipcodes
         for (nd in nested_data){
             com = nested_data[nd].values
             var nested_data2 = d3.nest()
-                .key(function(d) { return d.nieghborhood; })
+                .key(function(d) { return d.zipcode; })
                 .entries(com);
             com = nested_data2;
             nested_data[nd].values = com
@@ -133,6 +134,7 @@
         // Click & Zoom
         function clicked(d) {
         var zoom;
+        
         var x, y, k;
 
           if (d && centered !== d) {
@@ -177,6 +179,17 @@
             .attr("fill", "#2C3E50")
             .attr("stroke-width", 1)
             .attr("opacity", 1)
+            
+            // Get complaint type for area
+            g.selectAll(".active")
+                .data(nested[0])
+                .enter().append("circle")
+                .attr("d", path)
+                .attr("fill", "#FF5733")
+                .attr("opacity", function(d){ return fillMap(d,c)})
+                .attr("stroke", "white")
+                .on("click", clicked)
+            
         }
             
         g.transition()
@@ -189,7 +202,6 @@
         // Populate map
         d3.json("nyc.geojson", function(error, nyb) {
 
-            c = 0; // complaint type
 
             g.append("g")
                 .attr("id", "postalCode")
@@ -259,21 +271,16 @@
     function fillMap(d,c){
         var zipCode = d.properties.postalCode
         
-        // Map zipcode to neighborhood
-        var hood = 'Other'
-        for (n in neigh){ 
-            if (neigh[n].zipcodes.includes(zipCode)) {
-                hood = n
-            } 
-        }
+        cd = nested[c].values
         
-        if (hood != "Other"){
-            k = neighborhoodKey(hood);
-            if (k == 11) {return 0.1} // Not in mapping
-            hoodData = (nested[c].values[k].values).length
-            return colorScale(hoodData)
+        for (c in cd){
+            if (cd[c].key.includes(zipCode)){
+                num = cd[c].values.length
+                return colorScale(num)
+            }
         }
-        else {return 0.1}
+       return 0.1
+            
     }
     
     
