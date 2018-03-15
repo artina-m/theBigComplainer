@@ -408,7 +408,10 @@
                 }
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
+                
+                document.getElementById("totalNumber").innerHTML = sum
 
+                
                 var x;
                 var highest = 0
                 day_hour_val.forEach(function (element) {
