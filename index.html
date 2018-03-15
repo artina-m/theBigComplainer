@@ -80,7 +80,7 @@
     var nested;
     var c = 0;
 
-
+    
 
     d3.tsv("ManhattanComplaints", parseLine, function(error,data){
         
@@ -200,7 +200,7 @@
                 .attr("fill", "#F5C141")
                 .attr("opacity", 0.4)
                 
-                complaintType = nested[c].key
+                complaintType = key_to_complaint(c)
                 generateHeatMap(complaintType, complaintData, String(code))
             }
             
@@ -259,9 +259,10 @@
                      x = 250;
                      y = 350;
                      cd = nested[c];
-                     complaintType = nested[c].key
-                     console.log(complaintType)
+                     complaintType = key_to_complaint(c)
+                     console.log(c,complaintType)
                      generateHeatMap(complaintType, complaintData, "ALL")
+                     
                      // Update Map
                      g.selectAll("path")
                      .attr("fill", function(d){ return fillMap(d,c)})
@@ -270,7 +271,7 @@
 
                      g.transition()
                     .duration(750)
-                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
+                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + 1 +  ")translate(" + -x + "," + -y + ")")
                     .style("stroke-width", 1.5  + "px");
                      
                      
@@ -300,6 +301,10 @@
             .on("click", function(){
                     d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
                     d3.select(this).style("fill", "#E74C3C").attr("id", "selected")
+                    
+                    d3.select(".heatmap").remove()
+                    complaintType = nested[d.id].key                     
+                    generateHeatMap(complaintType, complaintData, "ALL")
             })   
             .on("mouseover", function(){
                     d3.selectAll('.buttons').style('fill','white'); 
@@ -432,6 +437,7 @@
 
 
                 let svg = d3.select(".thirdSection").append("svg")
+                    .attr("class", "heatmap")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
@@ -503,6 +509,7 @@
                 // cards.transition().duration(1000)
                 //         .style("fill", function (d) { return colorScale(d.value); });
 
+                console.log("out")
                 cards.select("title").text(function (d) { return d.value; });
 
                 cards.exit().remove();
@@ -544,7 +551,6 @@
             // generateHeatMap("Noise - Residential", data, "ALL")
             // 50452
 
-            generateHeatMap("Noise - Residential", data, "ALL")
         // 14430
 
         // generateHeatMap("Noise - Residential", complaintData, "10031")
@@ -630,6 +636,18 @@
         }
        return "lightGrey"
             
+    }
+    
+    function key_to_complaint(c){
+        if (c==0){ return "Noise - Residential"}
+        if (c==1) {return "HEAT/HOT WATER"}
+        if (c==2) {return "Noise - Street/Sidewalk"}
+        if (c==3) {return "Illegal Parking"}
+        if (c==4) {return "Street Light Condition"}
+        if (c==5) {return "Street Condition"}
+        if (c==6) {return "Water System"}
+        if (c==7) {return "Blocked Driveway"}
+        if (c== 8) {return "UNSANITARY CONDITION"}
     }
     
     
