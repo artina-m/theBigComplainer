@@ -66,17 +66,17 @@ p {
     width:320; 
     height: 100%;
     float: left;
-    margin-right: 15px;
+    margin-right: 50px;
     text-align: center;
 }
 .secondSection{ 
-    width:28%; 
+    width:400; 
     height: 100%;
     float: left;
     margin-right: 15px;
 }
 .thirdSection{ 
-    width:39%; 
+    width:320; 
     height:100%;
     float: left
 }

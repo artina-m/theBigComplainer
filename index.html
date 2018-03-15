@@ -166,6 +166,8 @@
                 .duration(750)
                 .attr("fill", function(d){ return fillMap(d,c)})
                 .attr("stroke-wdith", 1.5 / k + "px")
+            
+            document.getElementById("place").innerHTML = "Manhattan"
         }
             
         else {
@@ -183,6 +185,7 @@
             
             if (d.properties != undefined) {
                 var code = d.properties.postalCode
+                document.getElementById("place").innerHTML = "Zip Code: " + code
             
                 zipData = getZipDetails(code)
 
@@ -244,16 +247,18 @@
             i = 0;
             insert.append("svg")
             .attr("id",  "svg" + d.id)
-            .attr("width", 100)
+            .attr("width", 90)
             .attr("height", 40)
             .attr("x", d.x)
             .attr("y", d.y)
             .on("click", function()
                     {c=d.id;
                      x = 250;
-                        y = 350;
+                     y = 350;
                      cd = nested[c];
-
+                     
+                     
+                     // Update Map
                      g.selectAll("path")
                      .attr("fill", function(d){ return fillMap(d,c)})
 
@@ -264,80 +269,65 @@
                     .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
                     .style("stroke-width", 1.5  + "px");
                      
+                     
+                    // Update Buttons
                     d3.selectAll(".buttonText").style("fill", "grey");
                     d3.select(this).selectAll("text").style("fill", "white");
                      
                     d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
                     d3.select(this).select("rect").style("fill", "#E74C3C").attr("id", "selected")
+                    
+                    
+                    // Update Text Box
+                    ct = d.name1 + " " +  d.name2
+                    document.getElementById("complaintType").innerHTML = ct + " Complaints"
+                    
 
-                     
                     })
             
             // change button color
             d3.select("#svg" + d.id).append("rect")
             .attr("class", "buttons")
-            .attr("width", 150)
-            .attr("height", 50)
+            .attr("width", 90)
+            .attr("height", 40)
+            .attr("rx", 15)
+            .attr("ry", 15)
             .attr("fill", "white")
             .on("click", function(){
                     d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
                     d3.select(this).style("fill", "#E74C3C").attr("id", "selected")
             })   
             .on("mouseover", function(){
-                    d3.selectAll('.buttons').style('fill','white'); //fill all circles black
+                    d3.selectAll('.buttons').style('fill','white'); 
                     d3.select("#selected").style("fill", "#E74C3C");
 
                     d3.select(this).style("fill", "lightgrey");
             }) 
             .on("mouseout", function(){
-                    d3.selectAll('.buttons').style('fill','white'); //fill all circles black
+                    d3.selectAll('.buttons').style('fill','white'); 
                     d3.select("#selected").style("fill", "#E74C3C");
             })
             
-             d3.select("#svg0").select('rect').style("fill", "#E74C3C");
+
+            // Pre-click residential noise
+            d3.select("#svg0").select('rect').style("fill", "#E74C3C").attr("id", "selected");
             d3.select("#svg0").selectAll('text').style("fill", "white");
 
-            
-            
+            // Add text to buttons
             d3.select("#svg" + d.id).append("text").text(d.name1)
             .attr("class","buttonText")
-            .attr("x", 15)
-            .attr("y", 20)
+            .attr("x", 20)
+            .attr("y", 17)
             .attr("fill", "grey")
             
              d3.select("#svg" + d.id).append("text").text(d.name2)
             .attr("class","buttonText")
-            .attr("x", 15)
-            .attr("y", 38).attr("fill", "grey")
+            .attr("x", 20)
+            .attr("y", 31).attr("fill", "grey")
 
         })
         
         
-       
-            
-//            insert.append("text")
-//            .text(d.name1)
-//            .attr("x", d.x)
-//            .attr("y",d.y)
-//            .on("click", function()
-//                    {c=d.id;
-//                     x = 250;
-//                    y = 350;
-//                     cd = nested[c];
-//
-//                     g.selectAll("path")
-//                     .attr("fill", function(d){ return fillMap(d,c)})
-//
-//                     g.selectAll("circle").remove()
-//
-//                     g.transition()
-//                    .duration(750)
-//                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + ")translate(" + -x + "," + -y + ")")
-//                    .style("stroke-width", 1.5  + "px");
-//                    })
-//        })
-//                    
-//        
 
         //Begin heatmap read in 
             // ====Notes for Heat Map====
