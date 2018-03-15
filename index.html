@@ -341,14 +341,16 @@
             d3.select("#svg" + d.id).append("text").text(d.name1)
             .attr("class","buttonText")
             .style("cursor","pointer")
-            .attr("x", 20)
+            .attr("text-anchor", "middle")
+            .attr("x", 45)
             .attr("y", 17)
             .attr("fill", "grey")
             
              d3.select("#svg" + d.id).append("text").text(d.name2)
             .attr("class","buttonText")
             .style("cursor","pointer")
-            .attr("x", 20)
+            .attr("text-anchor","middle")
+            .attr("x", 45)
             .attr("y", 31).attr("fill", "grey")
 
         })
