@@ -25,21 +25,22 @@
 
 
                 pics = [
-                    {id:0, name1:"Residential", name2:"Noise", x:0, y:40}, 
-                    {id:1, name1:"Heat/Hot", name2: "Water", x:105, y:40}, 
-                    {id:2, name1:"Street", name2:"Noise", x:210, y:40},
-                    {id:3, name1:"Illegal", name2: "Parking", x:0, y:85} , 
-                    {id:8, name1:"Unsanitary", name2:"Conditions", x:105, y:85},
-                    {id:5, name1:"Street", name2:"Condition", x:210, y:85}, 
-                    {id:6, name1:"Water", name2:"System", x:0, y:130},
-                    {id:7, name1:"Blocked", name2:" Driveway", x:105, y:130},
-                    {id:4, name1:"Street", name2:"Lights", x:210, y:130} ]
+                    {id:0, name1:"Residential", name2:"Noise", x:0, y:40, descriptor: "Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV" }, 
+                    {id:1, name1:"Heat/Hot", name2: "Water", x:105, y:40, descriptor: "Entire Building, Apartment Only" }, 
+                    {id:2, name1:"Street", name2:"Noise", x:210, y:40, descriptor: "Loud Music/ Party, Loud Talking" },
+                    {id:3, name1:"Illegal", name2: "Parking", x:0, y:85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk"  } , 
+                    {id:8, name1:"Unsanitary", name2:"Conditions", x:105, y:85, descriptor: "Pests, Mold, Garbage / Recycling" },
+                    {id:5, name1:"Street", name2:"Condition", x:210, y:85, descriptor: "Pothole, Defective Hardware, Cave In" }, 
+                    {id:6, name1:"Water", name2:"System", x:0, y:130, descriptor: "Hydrant Running, Leak, Hydrant Leaking, Dirty Water" },
+                    {id:7, name1:"Blocked", name2:" Driveway", x:105, y:130, descriptor: "No access, Partial Access" },
+                    {id:4, name1:"Street", name2:"Lights", x:210, y:130, descriptor: "Light Out, Light Flashing, Traffic Signal " } ]
                     
 
                 var insert = d3.select("svg");
 
                 var noiseTypes = ["Residential Noise", "Heat/Hot Water",
                                  "Street Noise", "Illegal Parking", "Street Lights", "Street Condition", "Water System", "Blocked Driveway", "Unsanitary Conditions"];
+
 
             </script> 
             <hr>
@@ -299,7 +300,7 @@
                     
                     // Update Text Box
                     ct = d.name1 + " " +  d.name2
-                    document.getElementById("complaintType").innerHTML = ct + " Complaints"
+                    document.getElementById("complaintType").innerHTML = ct + " Complaints<br>Descriptions: " + d.descriptor;
                     
 
                     })
