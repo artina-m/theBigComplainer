@@ -44,9 +44,10 @@
 
             </script> 
             <hr>
+        
             <p id = "totalNumber"></p>
-            <p id = "place">Manhattan</p>
-            <p id = "complaintType">Residental Noise Complaints<br>Descriptions: Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
+            <p id = "complaintType">Residental Noise Complaints:<br>Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
+            <p id = "place">Location: Manhattan</p>
     </div>
 
     <div class = "secondSection" id = "map">
@@ -174,7 +175,7 @@
                 .attr("fill", function(d){ return fillMap(d,c)})
                 .attr("stroke-wdith", 1.5 / k + "px")
             
-            document.getElementById("place").innerHTML = "Manhattan"
+            document.getElementById("place").innerHTML = "Location: Manhattan"
             
              d3.select(".heatmap").remove()
                 ct = key_to_complaint(c)                
@@ -215,6 +216,8 @@
                 ct = key_to_complaint(c)                
                 generateHeatMap(ct, complaintData, String(code))
             }
+            
+            else {document.getElementById("place").innerHTML = "Location: Manhattan"}
             
         }
           
@@ -300,7 +303,7 @@
                     
                     // Update Text Box
                     ct = d.name1 + " " +  d.name2
-                    document.getElementById("complaintType").innerHTML = ct + " Complaints<br>Descriptions: " + d.descriptor;
+                    document.getElementById("complaintType").innerHTML = ct + " Complaints:<br>Descriptions: " + d.descriptor;
                     
 
                     })
