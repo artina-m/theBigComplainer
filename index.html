@@ -14,7 +14,6 @@
             <h1 id = "mainTitle"> The Big Complainer</h1>
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
-            <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">3-1-1 Complaints</a> in Manhattan for 2017</p>
             <svg id='svg' width= 100% height=200>
             </svg>
 
@@ -47,6 +46,8 @@
             <p id = "totalNumber"></p>
             <p id = "complaintType">Residental Noise Complaints<br>Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
             <p id = "place">Location: Manhattan</p>
+            
+            <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">3-1-1 Complaints</a> in Manhattan for 2017</p>
     </div>
 
     <div class = "secondSection" id = "map">
@@ -445,10 +446,10 @@
                     gridSize = Math.floor(width / 21),
                     legendElementWidth = gridSize * 2,
                     buckets = 9,
-                    // colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
+
                     // alternatively colorbrewer.YlGnBu[9]
                     // colors = ["#fff7ec", "#fee8c8", "#fdd49e", "#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]
-                   colors = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
+                    colors = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
 
 
                     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
@@ -625,6 +626,19 @@
     }
     
     
+    pics = [
+                        { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
+                        { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
+                        { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
+                        { id: 6, name1: " ", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
+                        { id: 4, name1: "Illegal", name2: "Parking", x: 105, y: 85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk" },
+                        { id: 1, name1: "Commercial", name2: "Noise", x: 210, y: 85, descriptor: "Loud Music/Partying, Banging/Pounding, Loud Talking" },
+                        { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
+                        { id: 9, name1: "Unsanitary", name2: "Conditions", x: 105, y: 130, descriptor: "Pests, Mold, Garbage / Recycling" },
+                        { id: 5, name1: "Street", name2: "Condition", x: 210, y: 130, descriptor: "Pothole, Defective Hardware, Cave In" }
+                    ]
+
+    
     
     
     // Call to change neighborhood data on map
@@ -632,14 +646,14 @@
         var zipCode = d.properties.postalCode
         var dom = 1000;
         if (c == 0){dom = 50452/40}
-        if (c == 1){dom = 45506/40}
-        if (c == 2){dom = 28788/40}
-        if (c == 3){dom = 15191/40}
-        if (c == 4){dom = 3024/40}
+        if (c == 1){dom = 18211/40}
+        if (c == 2){dom = 45506/40}
+        if (c == 3){dom = 28788/40}
+        if (c == 4){dom = 19191/40}
         if (c == 5){dom = 14064/40}
-        if (c == 6){dom = 10475/40}
-        if (c == 7){dom = 3359/40}
-        if (c == 8){dom = 14430/40}
+        if (c == 6){dom = 28316/40}
+        if (c == 7){dom = 16646/40}
+        if (c == 9){dom = 14430/40}
         
         
         colorScale2 = d3.scaleLinear().domain([10,dom])
@@ -669,6 +683,7 @@
         if (c==7) {return "Homeless Person Assistance"}
         if (c== 9) {return "UNSANITARY CONDITION"}
     }
+
 
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
