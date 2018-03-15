@@ -456,7 +456,7 @@
                     .enter().append("text")
                     .text(function (d) { return d; })
                     .attr("x", function (d, i) { return i * gridSize + 38; })
-                    .attr("y", 8)
+                    .attr("y", 5)
                     .style("text-anchor", "end")
                     // .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
                     .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis axis-workweek"); });
@@ -474,7 +474,7 @@
 
                 const colorScale = d3.scaleQuantile()
                     .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
-                    .range(['#F7DC6F',"#F5B041","#E74C3C"]);
+                    .range(colors);
 
 
                 const cards = svg.selectAll(".hour")
