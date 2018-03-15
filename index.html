@@ -199,6 +199,9 @@
                 .attr("r", 0.4)
                 .attr("fill", "#F5C141")
                 .attr("opacity", 0.4)
+                
+                complaintType = nested[c].key
+                generateHeatMap(complaintType, complaintData, String(code))
             }
             
         }
@@ -256,8 +259,9 @@
                      x = 250;
                      y = 350;
                      cd = nested[c];
-                     
-                     
+                     complaintType = nested[c].key
+                     console.log(complaintType)
+                     generateHeatMap(complaintType, complaintData, "ALL")
                      // Update Map
                      g.selectAll("path")
                      .attr("fill", function(d){ return fillMap(d,c)})
@@ -540,7 +544,7 @@
             // generateHeatMap("Noise - Residential", data, "ALL")
             // 50452
 
-            generateHeatMap("UNSANITARY CONDITION", data, "ALL")
+            generateHeatMap("Noise - Residential", data, "ALL")
         // 14430
 
         // generateHeatMap("Noise - Residential", complaintData, "10031")
