@@ -28,7 +28,7 @@ h1 {
 
 #blurb {
     font-size: 14;
-    margin-top: 150px;
+    margin-top: 153px;
     text-align: center;
     color: grey;
 }
@@ -91,14 +91,14 @@ p {
     height: 700px;
     float: left;
     margin-right: 15px;
-    margin-left:1%;
+    margin-left:10px;
     margin-top:20px
 }
 .thirdSection{ 
     width:320; 
     height:700;
     float: left;
-    margin-left:1%;
+    margin-left:10px;
     margin-top:20px
 }
 
