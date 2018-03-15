@@ -42,7 +42,7 @@
 
             </script> 
             <hr>
-            <p id = "totalNumber">3,456</p>
+            <p id = "totalNumber"></p>
             <p id = "place">Manhattan</p>
             <p id = "complaintType">Residental Noise Complaints</p>
     </div>
@@ -105,6 +105,10 @@
         
         nested = nested_data;
         
+        resData = nested[0].values;
+        ressum = 0;
+        for (i in resData){ressum += resData[i].values.length}
+        document.getElementById("totalNumber").innerHTML = ressum
         
         // Map 
         var width = document.getElementById("map").clientWidth;
@@ -567,7 +571,8 @@
 
         // 14430
 
-        generateHeatMap("Noise - Residential", complaintData, "10031")
+        generateHeatMap("Noise - Residential", complaintData, "ALL")
+        document.getElementById("totalNumber").innerHTML = ressum
         // 4352
 
         // generateHeatMap("UNSANITARY CONDITION", data, "10031")
