@@ -28,20 +28,23 @@ h1 {
 
 #blurb {
     font-size: 14;
-    margin-top: 153px;
+    margin-top: 40px;
     text-align: center;
     color: grey;
 }
 
 #place {
     color: grey;
-    margin-bottom: 10px;
+    /* margin-bottom: 10cpx; */
     font-size: 14;
 }
 
 #description_start {
     color: grey;
     margin-top: -10px;
+}
+.descrip{
+    text-align: center;
 }
 
 .buttonText{
@@ -53,13 +56,13 @@ h1 {
     font-weight: 600;
     color:#E74C3C;
     font-size: 2rem;
-    margin-top: 30px; 
-    margin-bottom: 20px;
+    /* margin-top: 30px;  */
+    margin-bottom: 10px;
 }
 
 #complaintType {
     color: grey;
-    margin-top: -10px;
+    /* margin-top: -10px; */
     font-size: 14;
 }
 
@@ -82,24 +85,26 @@ p {
     width:320; 
     height: 700px;
     float: left;
-    margin-right: 50px;
+    /* margin-right: 50px; */
     text-align: center;
-    margin-top:20px;
+    margin-top:250px;
 }
 .secondSection{ 
     width:400; 
     height: 700px;
     float: left;
-    margin-right: 15px;
-    margin-left:10px;
+    /* margin-right: 15px; */
+    margin-left:100px;
     margin-top:20px
 }
 .thirdSection{ 
     width:320; 
-    height:700;
+    height:800px;
     float: left;
-    margin-left:10px;
-    margin-top:20px
+    margin-left:100px;
+    margin-top:20px;
+    /* text-align: center; */
+    font-family: Lato;
 }
 
 

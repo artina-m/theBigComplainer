@@ -27,7 +27,7 @@
                         { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
                         { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
                         { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
-                        { id: 6, name1: " ", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
+                        { id: 6, name1: "General", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
                         { id: 4, name1: "Illegal", name2: "Parking", x: 105, y: 85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk" },
                         { id: 1, name1: "Commercial", name2: "Noise", x: 210, y: 85, descriptor: "Loud Music/Partying, Banging/Pounding, Loud Talking" },
                         { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
@@ -42,10 +42,7 @@
 
             </script> 
             <hr>
-        
-            <p id = "totalNumber"></p>
-            <p id = "complaintType">Residental Noise Complaints<br>Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
-            <p id = "place">Location: Manhattan</p>
+            
             
             <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">3-1-1 Complaints</a> in Manhattan for 2017</p>
     </div>
@@ -55,6 +52,12 @@
 
     <div class = "thirdSection">
         <!-- <p id = "whitespace"></p> -->
+        <div class="descrip">
+            <p id="totalNumber"></p> 
+            <span id="complaintType">
+                Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</span><br>
+            <span id="place">Location: Manhattan</span>
+        </div>
     </div>
 
 </div>
@@ -111,7 +114,7 @@
         resData = nested[0].values;
         ressum = 0;
         for (i in resData){ressum += resData[i].values.length}
-        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum);
+        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum) + "Complaints";
         
         // Map 
         var width = document.getElementById("map").clientWidth;
@@ -298,8 +301,8 @@
                     
                     
                     // Update Text Box
-                    ct = d.name1 + " " +  d.name2
-                    document.getElementById("complaintType").innerHTML = ct + " Complaints<br>" + d.descriptor;
+                    // ct = d.name1 + " " +  d.name2
+                    // document.getElementById("complaintType").innerHTML = "  complaints<br>" + d.descriptor;
                     
 
                     })
@@ -421,7 +424,7 @@
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
                 
-                document.getElementById("totalNumber").innerHTML = numberWithCommas(sum);
+                document.getElementById("totalNumber").innerHTML = numberWithCommas(sum)+ " <span style='color;font-size:1.4rem;font-weight:1;:grey'>complaints</span>";
 
                 
                 var x;
@@ -578,7 +581,7 @@
         // 14430
 
         generateHeatMap("Noise - Residential", complaintData, "ALL")
-        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum);
+        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum)+ " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
         // 4352
 
         // generateHeatMap("UNSANITARY CONDITION", data, "10031")
