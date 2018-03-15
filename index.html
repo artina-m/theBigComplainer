@@ -253,6 +253,7 @@
                 .attr("fill", function(d){ return fillMap(d,c)})
                 .attr("stroke", "white")
                 .on("click", clicked)
+                .style("cursor","pointer")
             });
         
         
@@ -306,6 +307,7 @@
             // change button color
             d3.select("#svg" + d.id).append("rect")
             .attr("class", "buttons")
+            .style("cursor","pointer")
             .attr("width", 90)
             .attr("height", 40)
             .attr("rx", 15)

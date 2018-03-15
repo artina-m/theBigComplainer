@@ -59,7 +59,8 @@ p {
 }
 
 .svg1{
-    display: block
+    display: block;
+    cursor: pointer;
 }
 .visualization {
     overflow: hidden
