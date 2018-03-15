@@ -14,7 +14,7 @@
             <h1 id = "mainTitle"> The Big Complainer</h1>
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
-            <p id = "blurb">From Top 311 complaints in Manhattan for 2017</p>
+            <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">311 Complaints</a> in Manhattan for 2017</p>
             <svg id='svg' width= 100% height=200>
             </svg>
 
@@ -46,7 +46,7 @@
             <hr>
             <p id = "totalNumber"></p>
             <p id = "place">Manhattan</p>
-            <p id = "complaintType">Residental Noise Complaints</p>
+            <p id = "complaintType">Residental Noise Complaints<br>Descriptions: Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
     </div>
 
     <div class = "secondSection" id = "map">
@@ -110,7 +110,7 @@
         resData = nested[0].values;
         ressum = 0;
         for (i in resData){ressum += resData[i].values.length}
-        document.getElementById("totalNumber").innerHTML = ressum
+        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum);
         
         // Map 
         var width = document.getElementById("map").clientWidth;
@@ -418,7 +418,7 @@
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
                 
-                document.getElementById("totalNumber").innerHTML = sum
+                document.getElementById("totalNumber").innerHTML = numberWithCommas(sum);
 
                 
                 var x;
@@ -576,7 +576,7 @@
         // 14430
 
         generateHeatMap("Noise - Residential", complaintData, "ALL")
-        document.getElementById("totalNumber").innerHTML = ressum
+        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum);
         // 4352
 
         // generateHeatMap("UNSANITARY CONDITION", data, "10031")
@@ -685,7 +685,10 @@
         if (c==7) {return "Blocked Driveway"}
         if (c== 8) {return "UNSANITARY CONDITION"}
     }
-    
+
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     
 </script>
     

@@ -8,6 +8,10 @@ body {
     padding: 0;
 }
 
+a{
+    text-decoration:  none;
+    color: lightskyblue;
+}
 h1 {
     color: black;
     margin-top: 5%;
@@ -33,6 +37,11 @@ h1 {
     margin-bottom: 10px;
 }
 
+#description_start {
+    color: grey;
+    margin-top: -10px;
+}
+
 .buttonText{
     font-family: "Lato";
     font-size: 12px;
@@ -41,6 +50,7 @@ h1 {
 #totalNumber {
     font-weight: 600;
     color:#E74C3C;
+    font-size: 2rem;
     margin-top: 30px; 
     margin-bottom: -10px;
 }
@@ -71,7 +81,7 @@ p {
     float: left;
     margin-right: 50px;
     text-align: center;
-    margin-top:30px;
+    margin-top:40px;
 }
 .secondSection{ 
     width:400; 
@@ -79,12 +89,14 @@ p {
     float: left;
     margin-right: 15px;
     margin-left:1%;
+    margin-top:40px
 }
 .thirdSection{ 
     width:320; 
     height:100%;
     float: left;
     margin-left:1%;
+    margin-top:40px
 }
 
 
