@@ -50,10 +50,12 @@ h1 {
     margin-top: -10px;
 }
 
-
-
 p {
     font-family: "Lato"
+}
+
+#whitespace{
+    padding: 10px;
 }
 
 .svg1{
@@ -104,12 +106,14 @@ p {
 .thirdSection text.mono {
   font-size: 9pt;
   /* font-family: Consolas, courier; */
-  font-family: "Playfair Display SC";
+  font-family: "Lato";
   fill: #aaa; }
 .thirdSection text.axis-workweek {
-  fill: #000; }
+  fill: grey; 
+  font-family: "Lato";}
 .thirdSection text.axis-worktime {
-  fill: #000; }
+  fill: grey; 
+  font-family: "Lato"}
 
 .toolTip {
   position: absolute;

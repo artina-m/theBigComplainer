@@ -51,6 +51,7 @@
     </div>
 
     <div class = "thirdSection">
+        <p id = "whitespace"></p>
     </div>
 
 </div>
@@ -168,6 +169,10 @@
                 .attr("stroke-wdith", 1.5 / k + "px")
             
             document.getElementById("place").innerHTML = "Manhattan"
+            
+             d3.select(".heatmap").remove()
+                ct = key_to_complaint(c)                
+                generateHeatMap(ct, complaintData, "ALL")
         }
             
         else {
@@ -201,8 +206,8 @@
                 .attr("opacity", 0.4)
                 
                 d3.select(".heatmap").remove()
-                complaintType = key_to_complaint(c)
-                generateHeatMap(complaintType, complaintData, String(code))
+                ct = key_to_complaint(c)                
+                generateHeatMap(ct, complaintData, String(code))
             }
             
         }
@@ -435,7 +440,7 @@
                     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
                     days_lookup = { "Su": "Sunday", "Mo": "Monday", "Tu": "Tuesday", "We": "Wednesday", "Th": "Thursday", "Fr": "Friday", "Sa": "Saturday" };
 
-                times = ["12p", "1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p"];
+                times = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"];
 
 
 
@@ -451,7 +456,7 @@
                     .enter().append("text")
                     .text(function (d) { return d; })
                     .attr("x", function (d, i) { return i * gridSize + 38; })
-                    .attr("y", 0)
+                    .attr("y", 8)
                     .style("text-anchor", "end")
                     // .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
                     .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis axis-workweek"); });
@@ -460,7 +465,7 @@
                     .data(times)
                     .enter().append("text")
                     .text(function (d) { return d; })
-                    .attr("x", 0)
+                    .attr("x", -10)
                     .attr("y", function (d, i) { return i * gridSize + 38; })
                     .style("text-anchor", "middle")
                     .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -469,7 +474,7 @@
 
                 const colorScale = d3.scaleQuantile()
                     .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
-                    .range(colors);
+                    .range(['#F7DC6F',"#F5B041","#E74C3C"]);
 
 
                 const cards = svg.selectAll(".hour")
@@ -556,7 +561,7 @@
 
         // 14430
 
-        // generateHeatMap("Noise - Residential", complaintData, "10031")
+        generateHeatMap("Noise - Residential", complaintData, "10031")
         // 4352
 
         // generateHeatMap("UNSANITARY CONDITION", data, "10031")
