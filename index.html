@@ -14,7 +14,7 @@
             <h1 id = "mainTitle"> The Big Complainer</h1>
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
-            <p id = "blurb">Top 311 complaints in Manhattan for 2017</p>
+            <p id = "blurb">From Top 311 complaints in Manhattan for 2017</p>
             <svg id='svg' width= 100% height=200>
             </svg>
 
@@ -51,7 +51,7 @@
     </div>
 
     <div class = "thirdSection">
-        <p id = "whitespace"></p>
+        <!-- <p id = "whitespace"></p> -->
     </div>
 
 </div>
@@ -397,6 +397,7 @@
                     for (z = 0; z < 24; z++) {
                         let hour = day.filter(day => day.date.getHours() == z);
                         let count = hour.length;
+                        console.log(hour);
                         day_hour_val.push({
                             zipcode: zip_code,
                             complaint_type: complaint_type,
@@ -436,8 +437,10 @@
                     gridSize = Math.floor(width / 21),
                     legendElementWidth = gridSize * 2,
                     buckets = 9,
-                    colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
+                    // colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"],
                     // alternatively colorbrewer.YlGnBu[9]
+                    // colors = ["#fff7ec", "#fee8c8", "#fdd49e", "#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]
+                   colors = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"]
 
 
                     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
