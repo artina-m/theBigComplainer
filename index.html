@@ -14,7 +14,7 @@
             <h1 id = "mainTitle"> The Big Complainer</h1>
             <hr>
             <p id = "subTitle"> What are New Yorkers complaining about?</p>
-            <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">311 Complaints</a> in Manhattan for 2017</p>
+            <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">3-1-1 Complaints</a> in Manhattan for 2017</p>
             <svg id='svg' width= 100% height=200>
             </svg>
 
@@ -25,28 +25,27 @@
 
 
                 pics = [
-                    {id:0, name1:"Residential", name2:"Noise", x:0, y:40, descriptor: "Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV" }, 
-                    {id:1, name1:"Heat/Hot", name2: "Water", x:105, y:40, descriptor: "Entire Building, Apartment Only" }, 
-                    {id:2, name1:"Street", name2:"Noise", x:210, y:40, descriptor: "Loud Music/ Party, Loud Talking" },
-                    {id:3, name1:"Illegal", name2: "Parking", x:0, y:85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk"  } , 
-                    {id:8, name1:"Unsanitary", name2:"Conditions", x:105, y:85, descriptor: "Pests, Mold, Garbage / Recycling" },
-                    {id:5, name1:"Street", name2:"Condition", x:210, y:85, descriptor: "Pothole, Defective Hardware, Cave In" }, 
-                    {id:6, name1:"Water", name2:"System", x:0, y:130, descriptor: "Hydrant Running, Leak, Hydrant Leaking, Dirty Water" },
-                    {id:7, name1:"Blocked", name2:" Driveway", x:105, y:130, descriptor: "No access, Partial Access" },
-                    {id:4, name1:"Street", name2:"Lights", x:210, y:130, descriptor: "Light Out, Light Flashing, Traffic Signal " } ]
-                    
+                        { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
+                        { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
+                        { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
+                        { id: 6, name1: " ", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
+                        { id: 4, name1: "Illegal", name2: "Parking", x: 105, y: 85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk" },
+                        { id: 1, name1: "Commercial", name2: "Noise", x: 210, y: 85, descriptor: "Loud Music/Partying, Banging/Pounding, Loud Talking" },
+                        { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
+                        { id: 9, name1: "Unsanitary", name2: "Conditions", x: 105, y: 130, descriptor: "Pests, Mold, Garbage / Recycling" },
+                        { id: 5, name1: "Street", name2: "Condition", x: 210, y: 130, descriptor: "Pothole, Defective Hardware, Cave In" }
+                    ]
 
                 var insert = d3.select("svg");
 
-                var noiseTypes = ["Residential Noise", "Heat/Hot Water",
-                                 "Street Noise", "Illegal Parking", "Street Lights", "Street Condition", "Water System", "Blocked Driveway", "Unsanitary Conditions"];
+                var noiseTypes = ["Noise - Residential", "HEAT/HOT WATER", "Noise - Street/Sidewalk", "Noise", "Illegal Parking", "Noise - Commercial", "Homeless Person Assistance", "Street Condition", "UNSANITARY CONDITION"];
 
 
             </script> 
             <hr>
         
             <p id = "totalNumber"></p>
-            <p id = "complaintType">Residental Noise Complaints:<br>Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
+            <p id = "complaintType">Residental Noise Complaints<br>Loud Music/ Party, Banging / Pounding, Loud Talking, Loud TV</p>
             <p id = "place">Location: Manhattan</p>
     </div>
 
@@ -86,7 +85,7 @@
 
     
 
-    d3.tsv("ManhattanComplaints", parseLine, function(error,data){
+    d3.tsv("ManhattanComplaints2", parseLine, function(error,data){
         
         complaintData = data;
         
@@ -225,7 +224,6 @@
               .duration(750)
               .attr("transform", "translate(" + (width/2 )+ "," + ((height)/2 ) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
               .style("stroke-width", 1.5 / k + "px");
-            
 
             
         }
@@ -234,12 +232,9 @@
         function getZipDetails(code){
             cd = nested[c].values;
             
-            
             for (i in cd){
                 place = cd[i];
-                if (cd[i].key == code){
-                    return cd[i].values
-                }
+                if (cd[i].key == code){  return cd[i].values }
             }
             return []
         }
@@ -303,7 +298,7 @@
                     
                     // Update Text Box
                     ct = d.name1 + " " +  d.name2
-                    document.getElementById("complaintType").innerHTML = ct + " Complaints:<br>Descriptions: " + d.descriptor;
+                    document.getElementById("complaintType").innerHTML = ct + " Complaints<br>" + d.descriptor;
                     
 
                     })
@@ -629,22 +624,6 @@
         return complaintData;
     }
     
-        
-    function neighborhoodKey(name){
-        if (name == "Inwood and Washington Heights"){return 0};
-        if (name == "Central Harlem") {return 1};
-        if (name == "Lower East Side") {return 2};
-        if (name == "Lower Manhattan") {return 3};
-        if (name == "Upper East Side") {return 4};
-        if (name == "Greenwhich Village and Soho") {return 5};
-        if (name == "East Harlem") {return 6};
-        if (name == "Upper West Side") {return 7};
-        if (name == "Gramercy Park and Murray Hill") {return 8};
-        if (name == "Chelsea and Clinton") {return 9};
-        return 11;
-    }
-    
-    
     
     
     
@@ -681,14 +660,14 @@
     
     function key_to_complaint(c){
         if (c==0){ return "Noise - Residential"}
-        if (c==1) {return "HEAT/HOT WATER"}
-        if (c==2) {return "Noise - Street/Sidewalk"}
-        if (c==3) {return "Illegal Parking"}
-        if (c==4) {return "Street Light Condition"}
+        if (c==1) {return "Noise - Commercial"}
+        if (c==2) {return "HEAT/HOT WATER"}
+        if (c==3) {return "Noise - Street/Sidewalk"}
+        if (c==4) {return "Illegal Parking"}
         if (c==5) {return "Street Condition"}
-        if (c==6) {return "Water System"}
-        if (c==7) {return "Blocked Driveway"}
-        if (c== 8) {return "UNSANITARY CONDITION"}
+        if (c==6) {return "Noise"}
+        if (c==7) {return "Homeless Person Assistance"}
+        if (c== 9) {return "UNSANITARY CONDITION"}
     }
 
     const numberWithCommas = (x) => {
