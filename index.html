@@ -114,7 +114,7 @@
         var projection = d3.geoMercator()
                 .center([-74.04, 40.75])
                 .scale(150000)
-                .translate([(width/2 - 150), (height)/2 +100]);
+                .translate([(width/2 - 150), (height)/2 +110]);
         
         var path = d3.geoPath().projection(projection);
         
@@ -214,7 +214,7 @@
           
         g.transition()
               .duration(750)
-              .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+              .attr("transform", "translate(" + (width/2 )+ "," + ((height)/2 ) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
               .style("stroke-width", 1.5 / k + "px");
             
 
@@ -631,21 +631,34 @@
     }
     
     
-    colorScale = d3.scaleLinear().domain([100,1000])
-      .interpolate(d3.interpolateHcl)
-      .range([ '#F7DC6F',"#F5B041","#E74C3C"]);
+    
     
     
     // Call to change neighborhood data on map
     function fillMap(d,c){
         var zipCode = d.properties.postalCode
+        var dom = 1000;
+        if (c == 0){dom = 50452/40}
+        if (c == 1){dom = 45506/40}
+        if (c == 2){dom = 28788/40}
+        if (c == 3){dom = 15191/40}
+        if (c == 4){dom = 3024/40}
+        if (c == 5){dom = 14064/40}
+        if (c == 6){dom = 10475/40}
+        if (c == 7){dom = 3359/40}
+        if (c == 8){dom = 14430/40}
+        
+        
+        colorScale2 = d3.scaleLinear().domain([10,dom])
+        .interpolate(d3.interpolateHcl)
+        .range([ '#F7DC6F',"#F5B041","#E74C3C"]);
         
         cd = nested[c].values
         
         for (c in cd){
             if (cd[c].key.includes(zipCode)){
                 num = cd[c].values.length
-                return colorScale(num)
+                return colorScale2(num)
             }
         }
        return "lightGrey"
