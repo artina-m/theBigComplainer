@@ -200,6 +200,7 @@
                 .attr("fill", "#F5C141")
                 .attr("opacity", 0.4)
                 
+                d3.select(".heatmap").remove()
                 complaintType = key_to_complaint(c)
                 generateHeatMap(complaintType, complaintData, String(code))
             }
@@ -255,13 +256,15 @@
             .attr("x", d.x)
             .attr("y", d.y)
             .on("click", function()
-                    {c=d.id;
+                    {
+                     c=d.id;
                      x = 250;
                      y = 350;
                      cd = nested[c];
-                     complaintType = key_to_complaint(c)
-                     console.log(c,complaintType)
-                     generateHeatMap(complaintType, complaintData, "ALL")
+                
+                     d3.select(".heatmap").remove()
+                     ct = key_to_complaint(c)
+                     generateHeatMap(ct, complaintData, "ALL")
                      
                      // Update Map
                      g.selectAll("path")
