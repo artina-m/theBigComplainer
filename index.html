@@ -18,9 +18,6 @@
             </svg>
 
             <script>
-                var svg1 = d3.select("svg")
-                var svgWidth = document.getElementById('firstDiv').offsetWidth;
-                var svgHeight = document.getElementById('firstDiv').offsetHeight/2;
 
                 top9complaints = [
                         { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
@@ -60,10 +57,8 @@
 
     
 <script>
-
-    // Nieghborhoods --- working on this
     
-    color = "#227DDA"
+    color = "#227DDA";
         
     // Load Data
     function parseLine(line) {
@@ -138,219 +133,211 @@
         
         // Click & Zoom
         function clicked(d) {
-        var zoom;
-        
-        var x, y, k;
+            var zoom;
+            
+            var x, y, k;
 
-          if (d && centered !== d) {
-            var centroid = path.centroid(d);
-            x = centroid[0];
-            y = centroid[1];
-            k = 4;
-            centered = d;
-            zoom = "in"
-          } else {
-            x = 250;
-            y = 350;
-            k = 1;
-            centered = null;
-            zoom = "out"
+            if (d && centered !== d) {
+                var centroid = path.centroid(d);
+                x = centroid[0];
+                y = centroid[1];
+                k = 4;
+                centered = d;
+                zoom = "in"
+            } else {
+                x = 250;
+                y = 350;
+                k = 1;
+                centered = null;
+                zoom = "out"
 
-          }
-    
-        g.selectAll("circle").remove()
-        g.selectAll("path").classed("nonactive", function(d) { return d != centered;})
-        g.selectAll("path").classed("active", centered && function(d) { return d === centered; });
-            
-            
-        if (zoom == "out"){
+            }
+            g.selectAll("circle").remove()
+            g.selectAll("path").classed("nonactive", function(d) { return d != centered;})
+            g.selectAll("path").classed("active", centered && function(d) { return d === centered; });
+                
+            if (zoom == "out"){
 
-            // Zooming out from the graph and adding back the heatmap
-            g.selectAll("path")
-                .transition()
-                .duration(750)
-                .attr("fill", function(d){ return fillMap(d,c)})
-                .attr("stroke-wdith", 1.5 / k + "px")
-            
-            document.getElementById("place").innerHTML = "Location: Manhattan"
-            
-             d3.select(".heatmap").remove()
-                ct = key_to_complaint(c)                
-                generateHeatMap(ct, complaintData, "ALL")
-        }
-            
-        else {
-            
-            // Zooming into the graph, highlighting zipcode
-            g.selectAll("path").transition()
-            .duration(750)
-            .attr("fill", "lightgrey")
-            
-            g.selectAll(".active")
-            .transition()
-            .duration(750)
-            .attr("fill", "#212F3D")
-            .attr("opacity", 1)
-            
-            if (d.properties != undefined) {
-                var code = d.properties.postalCode
-                document.getElementById("place").innerHTML = "Zip Code: " + code
-            
-                zipData = getZipDetails(code)
-
-                g.selectAll("circle").data(zipData)
-                .enter().append("circle")
-                .attr("class", "complaintPoint")
-                .attr("cx", function(d){
-                    return projection([d.longitude, d.latitude])[0]})
-                .attr("cy", function(d){
-                    return projection([d.longitude, d.latitude])[1]})
-                .attr("r", 0.4)
-                .attr("fill", "#F5C141")
-                .attr("opacity", 0.4)
+                // Zooming out from the graph and adding back the heatmap
+                g.selectAll("path")
+                    .transition()
+                    .duration(750)
+                    .attr("fill", function(d){ return fillMap(d,c)})
+                    .attr("stroke-wdith", 1.5 / k + "px")
+                
+                document.getElementById("place").innerHTML = "Location: Manhattan"
                 
                 d3.select(".heatmap").remove()
-                ct = key_to_complaint(c)                
-                generateHeatMap(ct, complaintData, String(code))
+                    ct = key_to_complaint(c)                
+                    generateHeatMap(ct, complaintData, "ALL")
             }
-            
-            else {document.getElementById("place").innerHTML = "Location: Manhattan"}
-            
-        }
-          
-        g.transition()
-              .duration(750)
-              .attr("transform", "translate(" + (width/2 )+ "," + ((height)/2 ) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-              .style("stroke-width", 1.5 / k + "px");
-
-            
-        }
-        
-        
-        function getZipDetails(code){
-            cd = nested[c].values;
-            
-            for (i in cd){
-                place = cd[i];
-                if (cd[i].key == code){  return cd[i].values }
-            }
-            return []
-        }
-        
-        // Populate map
-        d3.json("nyc.geojson", function(error, nyb) {
-
-            g.append("g")
-                .attr("id", "postalCode")
-                .selectAll(".state")
-                .data(nyb.features)
-                .enter().append("path")
-                .attr("class", "zips")
-                .attr("d", path)
-                .attr("fill", function(d){ return fillMap(d,c)})
-                .attr("stroke", "white")
-                .on("click", clicked)
-                .style("cursor","pointer")
-            });
-        
-        
-        
-        top9complaints.forEach(function(d){
-            i = 0;
-            insert.append("svg")
-            .attr("id",  "svg" + d.id)
-            .attr("width", 90)
-            .attr("height", 40)
-            .attr("x", d.x)
-            .attr("y", d.y)
-            .on("click", function()
-                    {
-                     c=d.id;
-                     x = 250;
-                     y = 350;
-                     cd = nested[c];
                 
-                     d3.select(".heatmap").remove()
-                     ct = key_to_complaint(c)
-                     generateHeatMap(ct, complaintData, "ALL")
-                     
-                     // Update Map
-                     g.selectAll("path")
-                     .attr("fill", function(d){ return fillMap(d,c)})
-
-                     g.selectAll("circle").remove()
-
-                     g.transition()
+            else {
+                
+                // Zooming into the graph, highlighting zipcode
+                g.selectAll("path").transition()
                     .duration(750)
-                    .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + 1 +  ")translate(" + -x + "," + -y + ")")
-                    .style("stroke-width", 1.5  + "px");
-                     
-                     
-                    // Update Buttons
-                    d3.selectAll(".buttonText").style("fill", "grey");
-                    d3.select(this).selectAll("text").style("fill", "white");
-                     
-                    d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
-                    d3.select(this).select("rect").style("fill", "#E74C3C").attr("id", "selected")
-                    
-                    
-                    // Update Text Box
-                    ct = d.name1 + " " +  d.name2
-                    document.getElementById("complaintType").innerHTML = " " + d.descriptor;
-                    
+                    .attr("fill", "lightgrey")
+                
+                g.selectAll(".active")
+                    .transition()
+                    .duration(750)
+                    .attr("fill", "#212F3D")
+                    .attr("opacity", 1)
+                
+                if (d.properties != undefined) {
+                    var code = d.properties.postalCode
+                    document.getElementById("place").innerHTML = "Zip Code: " + code
+                
+                    zipData = getZipDetails(code)
 
-                    })
-            
-            // change button color
-            d3.select("#svg" + d.id).append("rect")
-            .attr("class", "buttons")
-            .style("cursor","pointer")
-            .attr("width", 90)
-            .attr("height", 40)
-            .attr("rx", 15)
-            .attr("ry", 15)
-            .attr("fill", "white")
-            .on("click", function(){
-                    d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
-                    d3.select(this).style("fill", "#E74C3C").attr("id", "selected")
+                    g.selectAll("circle").data(zipData)
+                    .enter().append("circle")
+                    .attr("class", "complaintPoint")
+                    .attr("cx", function(d){
+                        return projection([d.longitude, d.latitude])[0]})
+                    .attr("cy", function(d){
+                        return projection([d.longitude, d.latitude])[1]})
+                    .attr("r", 0.4)
+                    .attr("fill", "#F5C141")
+                    .attr("opacity", 0.4)
                     
                     d3.select(".heatmap").remove()
-                    complaintType = nested[d.id].key                     
-                    generateHeatMap(complaintType, complaintData, "ALL")
-            })   
-            .on("mouseover", function(){
-                    d3.selectAll('.buttons').style('fill','white'); 
-                    d3.select("#selected").style("fill", "#E74C3C");
+                    ct = key_to_complaint(c)                
+                    generateHeatMap(ct, complaintData, String(code))
+                }
+                
+                else {document.getElementById("place").innerHTML = "Location: Manhattan"}
+                
+            }
+            
+            g.transition()
+                .duration(750)
+                .attr("transform", "translate(" + (width/2 )+ "," + ((height)/2 ) + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+                .style("stroke-width", 1.5 / k + "px");
+            }
+            
+            
+            function getZipDetails(code){
+                cd = nested[c].values;
+                
+                for (i in cd){
+                    place = cd[i];
+                    if (cd[i].key == code){  return cd[i].values }
+                }
+                return []
+            }
+            
+            // Populate map
+            d3.json("nyc.geojson", function(error, nyb) {
 
-                    d3.select(this).style("fill", "lightgrey");
-            }) 
-            .on("mouseout", function(){
-                    d3.selectAll('.buttons').style('fill','white'); 
-                    d3.select("#selected").style("fill", "#E74C3C");
+                g.append("g")
+                    .attr("id", "postalCode")
+                    .selectAll(".state")
+                    .data(nyb.features)
+                    .enter().append("path")
+                    .attr("class", "zips")
+                    .attr("d", path)
+                    .attr("fill", function(d){ return fillMap(d,c)})
+                    .attr("stroke", "white")
+                    .on("click", clicked)
+                    .style("cursor","pointer")
+                });
+            
+            
+            
+            top9complaints.forEach(function(d){
+                i = 0;
+                insert.append("svg")
+                    .attr("id",  "svg" + d.id)
+                    .attr("width", 90)
+                    .attr("height", 40)
+                    .attr("x", d.x)
+                    .attr("y", d.y)
+                    .on("click", function(){
+                        c=d.id;
+                        x = 250;
+                        y = 350;
+                        cd = nested[c];
+                    
+                        d3.select(".heatmap").remove()
+                        ct = key_to_complaint(c)
+                        generateHeatMap(ct, complaintData, "ALL")
+                        
+                        // Update Map
+                        g.selectAll("path")
+                        .attr("fill", function(d){ return fillMap(d,c)})
+
+                        g.selectAll("circle").remove()
+
+                        g.transition()
+                        .duration(750)
+                        .attr("transform", "translate(" + ((width / 2) )+ "," + ((height)/2) + ")scale("  + 1 +  ")translate(" + -x + "," + -y + ")")
+                        .style("stroke-width", 1.5  + "px");
+                        
+                        // Update Buttons
+                        d3.selectAll(".buttonText").style("fill", "grey");
+                        d3.select(this).selectAll("text").style("fill", "white");
+                        
+                        d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
+                        d3.select(this).select("rect").style("fill", "#E74C3C").attr("id", "selected")
+                        
+                        
+                        // Update Text Box
+                        ct = d.name1 + " " +  d.name2
+                        document.getElementById("complaintType").innerHTML = " " + d.descriptor;
+
+                    })
+                
+                // change button color
+                d3.select("#svg" + d.id).append("rect")
+                    .attr("class", "buttons")
+                    .style("cursor","pointer")
+                    .attr("width", 90)
+                    .attr("height", 40)
+                    .attr("rx", 15)
+                    .attr("ry", 15)
+                    .attr("fill", "white")
+                    .on("click", function(){
+                        d3.selectAll('.buttons').style('fill','white').attr("id", "unselected")
+                        d3.select(this).style("fill", "#E74C3C").attr("id", "selected")
+                        
+                        d3.select(".heatmap").remove()
+                        complaintType = nested[d.id].key                     
+                        generateHeatMap(complaintType, complaintData, "ALL")
+                    })   
+                    .on("mouseover", function(){
+                        d3.selectAll('.buttons').style('fill','white'); 
+                        d3.select("#selected").style("fill", "#E74C3C");
+
+                        d3.select(this).style("fill", "lightgrey");
+                    }) 
+                    .on("mouseout", function(){
+                        d3.selectAll('.buttons').style('fill','white'); 
+                        d3.select("#selected").style("fill", "#E74C3C");
+                    })
+                
+
+                // Pre-click residential noise
+                d3.select("#svg0").select('rect').style("fill", "#E74C3C").attr("id", "selected");
+                d3.select("#svg0").selectAll('text').style("fill", "white");
+
+                // Add text to buttons
+                d3.select("#svg" + d.id).append("text").text(d.name1)
+                    .attr("class","buttonText")
+                    .style("cursor","pointer")
+                    .attr("text-anchor", "middle")
+                    .attr("x", 45)
+                    .attr("y", 17)
+                    .attr("fill", "grey")
+                
+                d3.select("#svg" + d.id).append("text").text(d.name2)
+                    .attr("class","buttonText")
+                    .style("cursor","pointer")
+                    .attr("text-anchor","middle")
+                    .attr("x", 45)
+                    .attr("y", 31).attr("fill", "grey")
             })
-            
-
-            // Pre-click residential noise
-            d3.select("#svg0").select('rect').style("fill", "#E74C3C").attr("id", "selected");
-            d3.select("#svg0").selectAll('text').style("fill", "white");
-
-            // Add text to buttons
-            d3.select("#svg" + d.id).append("text").text(d.name1)
-            .attr("class","buttonText")
-            .style("cursor","pointer")
-            .attr("text-anchor", "middle")
-            .attr("x", 45)
-            .attr("y", 17)
-            .attr("fill", "grey")
-            
-             d3.select("#svg" + d.id).append("text").text(d.name2)
-            .attr("class","buttonText")
-            .style("cursor","pointer")
-            .attr("text-anchor","middle")
-            .attr("x", 45)
-            .attr("y", 31).attr("fill", "grey")
-
-        })
         
         
 
@@ -377,18 +364,12 @@
                 // if showing all zip codes, 'ALL'
                 let zip_code = zip === "ALL" ? "ALL" : Number(zip);
 
-                console.log("Entering generate heat map...");
-
-                // convert date obj for all data
+                // convert date field to Date object
                 // let curated_data = change2Date(data);
                 let curated_data = data.map(entry => convdate(entry));
 
-                console.log(curated_data);
-
                 // get objects of this specific complaint_type
                 var post_processing_data = curated_data.filter(entry => entry.complaintType == complaint_type);
-                console.log("DATA GOING INTO VISUALIZATION");
-                console.log(post_processing_data);
 
                 // if default view, use all zipcodes, else filter by the inputted zip code
                 if (zip_code !== "ALL") {
@@ -405,7 +386,6 @@
                     for (z = 0; z < 24; z++) {
                         let hour = day.filter(day => day.date.getHours() == z);
                         let count = hour.length;
-                        console.log(hour);
                         day_hour_val.push({
                             zipcode: zip_code,
                             complaint_type: complaint_type,
@@ -415,12 +395,12 @@
                         });
                     }
                 }
+
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
                 
                 document.getElementById("totalNumber").innerHTML = numberWithCommas(sum)+ " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
 
-                
                 var x;
                 var highest = 0
                 day_hour_val.forEach(function (element) {
@@ -430,14 +410,7 @@
                     }
                 }, this);
 
-                // console.log("final data after fixing going into actual viz");
-                // console.log(day_hour_val);
-
-
-                // Visualization
-
-                // https://jsfiddle.net/henbox/d3y14zsq/1/
-                // http://bl.ocks.org/ganezasan/dfe585847d65d0742ca7d0d1913d50e1
+                // HEATMAP VISUALIZATION
 
                 let margin = { top: 20, right: 10, bottom: 10, left: 20 },
                     height = 800 - margin.left - margin.right,
@@ -448,14 +421,9 @@
                     // alternatively colorbrewer.YlGnBu[9]
                     // colors = ["#fff7ec", "#fee8c8", "#fdd49e", "#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]
                     colors = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#bd0026", "#800026"];
-
-
                     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                    days_lookup = { "Su": "Sunday", "Mo": "Monday", "Tu": "Tuesday", "We": "Wednesday", "Th": "Thursday", "Fr": "Friday", "Sa": "Saturday" };
-
+                    days_lookup = { "Su": "Sunday", "Mo": "Monday", "Tu": "Tuesday", "We": "Wednesday", "Th": "Thursday", "Fr": "Friday", "Sa": "Saturday"};
                     times = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"];
-
-
 
                 let svg = d3.select(".thirdSection").append("svg")
                     .attr("class", "heatmap")
@@ -484,7 +452,6 @@
                     .attr("transform", "translate(" + gridSize / 2 + ", -6)")
                     .attr("class", function (d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis axis-worktime"); });
 
-
                 const colorScale = d3.scaleQuantile()
                     .domain([0, buckets - 1, d3.max(day_hour_val, function (d) { return d.value; })])
                     .range(colors);
@@ -497,7 +464,6 @@
 
                 const tooltip = d3.select('body').append('div')
                     .attr('id', 'tooltip').attr("class", "toolTip");
-
 
                 cards.enter().append("rect")
                     .attr("x", function (d) { return (d.day - 1) * gridSize + 45; })
@@ -530,53 +496,19 @@
 
                 cards.exit().remove();
 
-
             } //end generateHeatMap
 
 
         generateHeatMap("Noise - Residential", complaintData, "ALL")
         document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum)+  " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
 
-    })
-    
-    
-    
-     
-    
+    });
 </script>
     
     
 <!--- Helper Functions -->
 
 <script>
-    
-    // Call to change into date
-    function change2Date(data){
-        var i=0;
-        console.log("Entering change2date");
-        console.log(data);
-        while(i<data.length){
-            if(data[i].date.substring(20,22) == "PM"){
-                data[i].date = new Date(2017,
-                    //month 00 is January
-                    Number(data[i].date.substring(0,2))-1,
-                    Number(data[i].date.substring(3,5)),
-                    //adding 12 hours if it is PM
-                    Number(data[i].date.substring(11,13)+12),
-                    Number(data[i].date.substring(14,16)),
-                    Number(data[i].date.substring(17,19)));
-                    i++;
-            }    
-            else{
-                data[i].date = new Date(2017, Number(data[i].date.substring(0,2))-1, Number(data[i].date.substring(3,5)), Number(data[i].date.substring(11,13)), Number(data[i].date.substring(14,16)),
-                Number(data[i].date.substring(17,19)));
-                i++;
-            } 
-        }
-        return complaintData;
-    }
-    
-    
     top9complaints = [
         { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
         { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
@@ -587,11 +519,8 @@
         { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
         { id: 9, name1: "Unsanitary", name2: "Conditions", x: 105, y: 130, descriptor: "Pests, Mold, Garbage / Recycling" },
         { id: 5, name1: "Street", name2: "Condition", x: 210, y: 130, descriptor: "Pothole, Defective Hardware, Cave In" }
-    ]
+    ];
 
-    
-    
-    
     // Call to change neighborhood data on map
     function fillMap(d,c){
         var zipCode = d.properties.postalCode
@@ -605,7 +534,6 @@
         if (c == 6){dom = 28316/40}
         if (c == 7){dom = 16646/40}
         if (c == 9){dom = 14430/40}
-        
         
         colorScale2 = d3.scaleLinear().domain([10,dom])
         .interpolate(d3.interpolateHcl)
@@ -634,7 +562,6 @@
         if (c==7) {return "Homeless Person Assistance"}
         if (c== 9) {return "UNSANITARY CONDITION"}
     }
-
 
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
