@@ -22,8 +22,7 @@
                 var svgWidth = document.getElementById('firstDiv').offsetWidth;
                 var svgHeight = document.getElementById('firstDiv').offsetHeight/2;
 
-
-                pics = [
+                top9complaints = [
                         { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
                         { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
                         { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
@@ -38,12 +37,9 @@
                 var insert = d3.select("svg");
 
                 var noiseTypes = ["Noise - Residential", "HEAT/HOT WATER", "Noise - Street/Sidewalk", "Noise", "Illegal Parking", "Noise - Commercial", "Homeless Person Assistance", "Street Condition", "UNSANITARY CONDITION"];
-
-
             </script> 
+
             <hr>
-            
-            
             <p id = "blurb">From Top <a href="http://www1.nyc.gov/311/index.page" target="_blank">3-1-1 Complaints</a> in Manhattan for 2017</p>
     </div>
 
@@ -69,7 +65,6 @@
     
     color = "#227DDA"
         
-    
     // Load Data
     function parseLine(line) {
         return {
@@ -87,7 +82,6 @@
     var nested;
     var c = 0;
 
-    
 
     d3.tsv("ManhattanComplaints2", parseLine, function(error,data){
         
@@ -122,9 +116,9 @@
         var centered = 20;
         
         var projection = d3.geoMercator()
-                .center([-74.04, 40.75])
-                .scale(150000)
-                .translate([(width/2 - 150), (height)/2 +110]);
+            .center([-74.04, 40.75])
+            .scale(150000)
+            .translate([(width/2 - 150), (height)/2 +110]);
         
         var path = d3.geoPath().projection(projection);
         
@@ -261,7 +255,7 @@
         
         
         
-        pics.forEach(function(d){
+        top9complaints.forEach(function(d){
             i = 0;
             insert.append("svg")
             .attr("id",  "svg" + d.id)
@@ -301,8 +295,8 @@
                     
                     
                     // Update Text Box
-                    // ct = d.name1 + " " +  d.name2
-                    // document.getElementById("complaintType").innerHTML = "  complaints<br>" + d.descriptor;
+                    ct = d.name1 + " " +  d.name2
+                    document.getElementById("complaintType").innerHTML = " " + d.descriptor;
                     
 
                     })
@@ -424,7 +418,7 @@
                 var sum = 0
                 day_hour_val.forEach(entry => sum += entry.value);
                 
-                document.getElementById("totalNumber").innerHTML = numberWithCommas(sum)+ " <span style='color;font-size:1.4rem;font-weight:1;:grey'>complaints</span>";
+                document.getElementById("totalNumber").innerHTML = numberWithCommas(sum)+ " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
 
                 
                 var x;
@@ -514,9 +508,7 @@
                     .attr("width", gridSize)
                     .attr("height", gridSize)
                     .style("fill", colors[0])
-
                     .on('mousemove', (d) => {
-                        console.log(d);
                         tooltip
                             .style("left", d3.event.pageX + 25 + "px")
                             .style("top", d3.event.pageY - 40 + "px")
@@ -524,7 +516,9 @@
                             .html(`<span>${days_lookup[days[d.day]]}</span> at <span>${times[d.hour]}</span> <br> <span>${d.value}</span> Complaints `);
                     })
 
-                    .on("mouseout", function (d) { tooltip.style("display", "none"); })
+                    .on("mouseout", function (d) {
+                         tooltip.style("display", "none"); 
+                    })
 
                     .merge(cards)
                     .transition()
@@ -532,62 +526,16 @@
 
                     .style("fill", (d) => colorScale(d.value))
 
-
-                // cards.transition().duration(1000)
-                //         .style("fill", function (d) { return colorScale(d.value); });
-
-                console.log("out")
                 cards.select("title").text(function (d) { return d.value; });
 
                 cards.exit().remove();
 
 
-                // var legend = svg.selectAll(".legend")
-                //         .data([0].concat(colorScale.quantiles()), function (d) { return d; });
-
-                //     legend.enter().append("g")
-                //         .attr("class", "legend");
-
-                //     legend.append("rect")
-                //         .attr("x", function (d, i) { return legendElementWidth * i; })
-                //         .attr("y", height)
-                //         .attr("width", legendElementWidth)
-                //         .attr("height", gridSize / 2)
-                //         .style("fill", function (d, i) { return colors[i]; });
-
-                //     legend.append("text")
-                //         .attr("class", "mono")
-                //         .text(function (d) { return "≥ " + Math.round(d); })
-                //         .attr("x", function (d, i) { return legendElementWidth * i; })
-                //         .attr("y", height + gridSize);
-
-                //     legend.exit().remove();
-
-
-
-
-
-
             } //end generateHeatMap
 
 
-            // take in complaint_type, raw data, and the target div
-            // generateHeatMap("Noise - Residential", data, "10004")
-            // 29
-
-            // generateHeatMap("Noise - Residential", data, "ALL")
-            // 50452
-
-        // 14430
-
         generateHeatMap("Noise - Residential", complaintData, "ALL")
-        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum)+ " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
-        // 4352
-
-        // generateHeatMap("UNSANITARY CONDITION", data, "10031")
-        // 1417
-
-
+        document.getElementById("totalNumber").innerHTML = numberWithCommas(ressum)+  " <span style='color:grey;font-size:1.4rem;font-weight:1;'>complaints</span>";
 
     })
     
@@ -596,7 +544,6 @@
      
     
 </script>
-    
     
     
 <!--- Helper Functions -->
@@ -630,17 +577,17 @@
     }
     
     
-    pics = [
-                        { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
-                        { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
-                        { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
-                        { id: 6, name1: "General", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
-                        { id: 4, name1: "Illegal", name2: "Parking", x: 105, y: 85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk" },
-                        { id: 1, name1: "Commercial", name2: "Noise", x: 210, y: 85, descriptor: "Loud Music/Partying, Banging/Pounding, Loud Talking" },
-                        { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
-                        { id: 9, name1: "Unsanitary", name2: "Conditions", x: 105, y: 130, descriptor: "Pests, Mold, Garbage / Recycling" },
-                        { id: 5, name1: "Street", name2: "Condition", x: 210, y: 130, descriptor: "Pothole, Defective Hardware, Cave In" }
-                    ]
+    top9complaints = [
+        { id: 0, name1: "Residential", name2: "Noise", x: 0, y: 40, descriptor: "Loud Music/Party, Banging/Pounding, Loud Talking" },
+        { id: 2, name1: "Heat/Hot", name2: "Water", x: 105, y: 40, descriptor: "Entire Building, Apartment Only" },
+        { id: 3, name1: "Street", name2: "Noise", x: 210, y: 40, descriptor: "Loud Music/ Party, Loud Talking" },
+        { id: 6, name1: "General", name2: "Noise", x: 0, y: 85, descriptor: "Construction, Jack Hammering" },
+        { id: 4, name1: "Illegal", name2: "Parking", x: 105, y: 85, descriptor: "Posted Sign Violation, Blocked Hydrant, Blocked Sidewalk" },
+        { id: 1, name1: "Commercial", name2: "Noise", x: 210, y: 85, descriptor: "Loud Music/Partying, Banging/Pounding, Loud Talking" },
+        { id: 7, name1: "Homeless", name2: "Person", x: 0, y: 130, descriptor: "N/A" },
+        { id: 9, name1: "Unsanitary", name2: "Conditions", x: 105, y: 130, descriptor: "Pests, Mold, Garbage / Recycling" },
+        { id: 5, name1: "Street", name2: "Condition", x: 210, y: 130, descriptor: "Pothole, Defective Hardware, Cave In" }
+    ]
 
     
     
