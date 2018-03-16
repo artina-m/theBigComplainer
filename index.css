@@ -88,6 +88,7 @@ p {
     /* margin-right: 50px; */
     text-align: center;
     margin-top:200px;
+
 }
 .secondSection{ 
     width:400; 
@@ -95,7 +96,7 @@ p {
     float: left;
     /* margin-right: 15px; */
     margin-left:100px;
-    margin-top:20px
+    margin-top:20px;
 }
 .thirdSection{ 
     width:320; 
