@@ -59,6 +59,8 @@
 <script>
     
     color = "#227DDA";
+
+    
         
     // Load Data
     function parseLine(line) {
@@ -77,6 +79,8 @@
     var nested;
     var c = 0;
 
+    const tooltip = d3.select('body').append('div')
+        .attr('id', 'tooltip').attr("class", "toolTip");
 
     d3.tsv("ManhattanComplaints2", parseLine, function(error,data){
         
@@ -462,8 +466,7 @@
 
                 cards.append("title");
 
-                const tooltip = d3.select('body').append('div')
-                    .attr('id', 'tooltip').attr("class", "toolTip");
+                
 
                 cards.enter().append("rect")
                     .attr("x", function (d) { return (d.day - 1) * gridSize + 45; })
